@@ -39,5 +39,5 @@ jobs:
         with:
           args: deploy --only hosting
         env:
+          CI: true
           FIREBASE_TOKEN: ${ secrets.FIREBASE_TOKEN }}
-          PROJECT_ID: onspot-472c7
