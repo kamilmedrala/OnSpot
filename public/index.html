@@ -14,7 +14,7 @@
     <title>OnSpot notes</title>
   </head>
   <body class="font-main h-full overscroll-none">
-    <div class="h-screen w-screen">
+    <div class="h-screen w-screen overflow-y-hidden">
       <div class="relative lg:w-phonewide h-full lg:ml-6 px-4 pb-14 pt-6">
 
         <nav id="user_nav" class=" relative w-full flex justify-between p-2 bg-yellow-300 rounded-t-3xl filter drop-shadow-xl text-white select-none duration-300 z-20">
@@ -35,9 +35,9 @@
         
         </nav>
 
-        <div id="user_panel_container" class="relative w-full h-full -top-7 overflow-hidden">
-          <div id="user_panel" class="absolute flex flex-col justify-end w-full h-full bg-gray-600 rounded-b-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
-            <div class="h-full mt-8 p-10">
+        <div id="user_panel_container" class="relative w-full h-full -top-7 overflow-hidden min-h-phone">
+          <div id="user_panel" class="absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
+            <div class="h-full mt-8 p-10 overflow-scroll">
               <form class="flex flex-col justify-around items-center max-w-xs mx-auto h-40">
                 <label for="">Login</label>
                 <input id="username" type="text" placeholder="Enter your username" />

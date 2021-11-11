@@ -1,0 +1,28 @@
+{
+  "name": "OnSpot",
+  "version": "1.0.0",
+  "description": "University project for IT subject",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "tailwindcss build tailwind.css -o public/resources/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamilmedrala/OnSpot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kamilmedrala/OnSpot/issues"
+  },
+  "homepage": "https://github.com/kamilmedrala/OnSpot#readme",
+  "dependencies": {
+    "@firebase/auth": "^0.19.1",
+    "@firebase/database": "^0.12.3",
+    "autoprefixer": "^10.3.7",
+    "firebase": "^9.3.0",
+    "postcss": "^8.3.11",
+    "tailwindcss": "^2.2.17"
+  }
+}

@@ -1,4 +1,4 @@
-/*! tailwindcss v2.2.17 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v2.2.19 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -6,11 +6,6 @@
 Document
 ========
 */
-
-html,body{
-  overscroll-behavior: none;
-  height: 100%;
-}
 
 /**
 Use a better box model (opinionated).
@@ -6586,6 +6581,22 @@ video {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-laptop {
+  min-height: 1024px;
+}
+
+.min-h-tablet {
+  min-height: 765px;
+}
+
+.min-h-phonewide {
+  min-height: 640px;
+}
+
+.min-h-phone {
+  min-height: 320px;
 }
 
 .w-0 {
@@ -38296,6 +38307,22 @@ video {
     min-height: 100vh;
   }
 
+  .sm\:min-h-laptop {
+    min-height: 1024px;
+  }
+
+  .sm\:min-h-tablet {
+    min-height: 765px;
+  }
+
+  .sm\:min-h-phonewide {
+    min-height: 640px;
+  }
+
+  .sm\:min-h-phone {
+    min-height: 320px;
+  }
+
   .sm\:w-0 {
     width: 0px;
   }
@@ -69584,6 +69611,22 @@ video {
 
   .md\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .md\:min-h-laptop {
+    min-height: 1024px;
+  }
+
+  .md\:min-h-tablet {
+    min-height: 765px;
+  }
+
+  .md\:min-h-phonewide {
+    min-height: 640px;
+  }
+
+  .md\:min-h-phone {
+    min-height: 320px;
   }
 
   .md\:w-0 {
@@ -100876,6 +100919,22 @@ video {
     min-height: 100vh;
   }
 
+  .lg\:min-h-laptop {
+    min-height: 1024px;
+  }
+
+  .lg\:min-h-tablet {
+    min-height: 765px;
+  }
+
+  .lg\:min-h-phonewide {
+    min-height: 640px;
+  }
+
+  .lg\:min-h-phone {
+    min-height: 320px;
+  }
+
   .lg\:w-0 {
     width: 0px;
   }
@@ -132166,6 +132225,22 @@ video {
     min-height: 100vh;
   }
 
+  .xl\:min-h-laptop {
+    min-height: 1024px;
+  }
+
+  .xl\:min-h-tablet {
+    min-height: 765px;
+  }
+
+  .xl\:min-h-phonewide {
+    min-height: 640px;
+  }
+
+  .xl\:min-h-phone {
+    min-height: 320px;
+  }
+
   .xl\:w-0 {
     width: 0px;
   }
@@ -163454,6 +163529,22 @@ video {
 
   .\32xl\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .\32xl\:min-h-laptop {
+    min-height: 1024px;
+  }
+
+  .\32xl\:min-h-tablet {
+    min-height: 765px;
+  }
+
+  .\32xl\:min-h-phonewide {
+    min-height: 640px;
+  }
+
+  .\32xl\:min-h-phone {
+    min-height: 320px;
   }
 
   .\32xl\:w-0 {
