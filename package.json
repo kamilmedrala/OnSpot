@@ -4,7 +4,7 @@
   "description": "University project for IT subject",
   "main": "index.js",
   "scripts": {
-    "build-css": "tailwindcss build tailwind.css -o public/resources/style.css"
+    "build": "tailwindcss build tailwind.css -o public/resources/style.css"
   },
   "repository": {
     "type": "git",
