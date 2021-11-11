@@ -39,5 +39,4 @@ jobs:
         with:
           args: deploy --only hosting
         env:
-          CI: true
-          FIREBASE_TOKEN: ${ secrets.FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: ${ secrets.FIREBASE_SECRET }}
