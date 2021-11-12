@@ -1,33 +1,33 @@
 module.exports = {
   purge: {
     enabled: true,
-    content: ['./index.html'],
+    content: ["./public/index.html"],
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       fontFamily: {
-        main : " 'Nunito', 'ui-sans-serif', 'system-ui' ",
+        main: " 'Nunito', 'ui-sans-serif', 'system-ui' ",
       },
       width: {
-        laptop : "1024px",
-        tablet : "765px",
-        phonewide : "640px",
-        phone : "320px",
+        laptop: "1024px",
+        tablet: "765px",
+        phonewide: "640px",
+        phone: "320px",
       },
-      minHeight:{
-        laptop : "1024px",
-        tablet : "765px",
-        phonewide : "640px",
-        phone : "320px",
+      minHeight: {
+        laptop: "1024px",
+        tablet: "765px",
+        phonewide: "640px",
+        phone: "320px",
       },
     },
   },
   variants: {
     extend: {
-      animation: ['hover'],
-      filter: ['hover'],
+      animation: ["hover"],
+      filter: ["hover"],
     },
   },
   plugins: [],
-}
+};
