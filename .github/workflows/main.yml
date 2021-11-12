@@ -2,9 +2,8 @@ name: Build and deploy
 on:
   push:
     branches: [ main ]
-
-  # Run workflow manually
-  workflow_dispatch:
+  merge:
+    branches: [ main ]
 
 jobs:
   build:
