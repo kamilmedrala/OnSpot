@@ -10,6 +10,7 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300;1,400;1,600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="resources/style.css" />
+    <link rel="stylesheet" href="resources/custom.css">
     
     <title>OnSpot notes</title>
   </head>
@@ -38,17 +39,20 @@
         <div id="user_panel_container" class="relative w-full h-full -top-7 overflow-hidden min-h-phone">
           <div id="user_panel" class="absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
             <div class="h-full mt-8 p-10 overflow-y-scroll">
-              <form class="flex flex-col justify-around items-center max-w-xs mx-auto h-40">
+              <form class="flex flex-col justify-around text-white max-w-xs sm:w-2/5 mx-auto h-40">
                 <label for="">Your username</label>
-                <input id="username" type="text" placeholder="Enter your username" />
+                <input class="w-full mb-2" id="username" type="text" placeholder="Enter your username" />
                 <label for="">Password</label>
                 <input
+                class="w-full"
                 id="password"
                 type="password"
                 placeholder="Enter your password"
                 />
-                <button onclick="login()" class="mt-4 w-24 py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Login </button>
-                <button onclick="register()" class="mt-4 w-24 py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Register </button>
+                <div class="flex mt-4 w-full justify-around">
+                  <button onclick="login()" class=" w-20 py-2 text-white hover:bg-yellow-400 hover:bg-opacity-30 border border-yellow-300 rounded-3xl duration-200 shadow-sm "> Login </button>
+                  <button onclick="register()" class=" w-20 py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Register </button>
+                </div>
               </form>
             </div>
             <i id="user_panel_btn" class="material-icons text-gray-300 text-5xl mx-auto transform hover:scale-105 duration-150 select-none">expand_less</i>
@@ -61,7 +65,6 @@
       <!-- MAP HERE -->
     </div>
   </body>
-
   <script src="resources/js/main.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
