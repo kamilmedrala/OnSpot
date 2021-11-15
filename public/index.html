@@ -40,7 +40,8 @@
           <div id="user_panel" class="absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
             <div class="h-full mt-8 px-10 overflow-y-scroll">
               <div id="user_panel-notes" class="hidden"></div>
-              <div id="user_panel-account" class="overflow-x-hidden h-full flex items-center">
+              <div id="user_panel-account" class="overflow-x-hidden h-full flex flex-col justify-center">
+                
                 <div id="user_panel-account-container" class="flex gap-4 max-w-xs w-full sm:w-2/5 mx-auto duration-150 overflow-x-hidden lg:transform">
                   <div id="user_panel-account-login" class="flex flex-col flex-shrink-0 w-full mt-4 items-center">
                     <form class="flex flex-col justify-around text-white mb-8">
@@ -52,13 +53,14 @@
                       placeholder="Enter your password"
                       />
                     </form>
-                    <button onclick="login()" class=" w-full py-2 text-white bg-gradient-to-r from-yellow-300 to-yellow-400 rounded-3xl duration-200 shadow-sm "> Login </button>
-                    <p class="text-white my-2">or</p>
+                    <button onclick="login()" class=" w-full py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Login </button>
+                    <p class="text-gray-300 text-sm mt-4 mb-2">Don't have an account yet?</p>
                     <button onclick="openRegister()" class=" w-full py-2 text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Create an account </button>  
                   </div>
 
                   <div id="user_panel-account-register" class="flex-shrink-0 w-full ">
                     <form class="flex flex-col justify-around text-white mb-8">
+                      <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_username_field" type="text" placeholder="Username..." />
                       <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_email_field" type="text" placeholder="Email..." />
                       <input
                       class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none"

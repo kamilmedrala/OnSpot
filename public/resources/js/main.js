@@ -70,6 +70,7 @@ userPanelBtn.addEventListener("touchend", function () {
 
 
 // User account section
+
 const accBox = document.getElementById("user_panel-account-container");
 const loginBox = document.getElementById("user_panel-account-login");
 const registerBox = document.getElementById("user_panel-account-register");
@@ -99,6 +100,10 @@ function fadeBck() {
 function accBack() {
   accBox.classList.add('opacity-0','lg:-translate-x-2')
   accBox.addEventListener('transitionend', fadeBck)
+}
+
+function hide() {
+  accBox.classList.add('hidden');
 }
 
 
