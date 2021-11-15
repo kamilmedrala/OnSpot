@@ -54,7 +54,7 @@ userPanelBtn.addEventListener("touchend", function () {
   userPanel.style.removeProperty('transform');
   userPanel.classList.add("duration-300");
 
-  if (clientY < -(window.innerHeight/2)) {
+  if (clientY < -(window.innerHeight/3)) {
     clientY=0;
     userPanelBtn.removeEventListener("touchmove",move);
     userPanel.style.removeProperty('transform');
@@ -66,6 +66,55 @@ userPanelBtn.addEventListener("touchend", function () {
 
   }
 });
+
+
+
+// User account section
+const accBox = document.getElementById("user_panel-account-container");
+const mainBox = document.getElementById("user_panel-account-main");
+const loginBox = document.getElementById("user_panel-account-login");
+const registerBox = document.getElementById("user_panel-account-register");
+
+function fadeLogin() {
+  console.log("koniec");
+  accBox.prepend(loginBox);
+  accBox.classList.remove('opacity-0','blur-xl','-translate-x-2');
+  accBox.removeEventListener('transitionend', fadeLogin)
+}
+
+function openLogin() {
+  accBox.classList.add('opacity-0','blur-xl','-translate-x-2')
+  accBox.addEventListener('transitionend', fadeLogin)
+}
+
+
+function fadeRegister() {
+  console.log("koniec");
+  accBox.prepend(registerBox);
+  accBox.classList.remove('opacity-0','blur-xl','-translate-x-2');
+  accBox.removeEventListener('transitionend', fadeRegister)
+}
+
+function openRegister() {
+  accBox.classList.add('opacity-0','blur-xl','-translate-x-2')
+  accBox.addEventListener('transitionend', fadeRegister)
+
+}2
+
+function fadeBck() {
+  console.log("koniec");
+  accBox.prepend(mainBox);
+  accBox.classList.remove('opacity-0','blur-xl','-translate-x-2');
+  accBox.removeEventListener('transitionend', fadeBck)
+}
+
+function accBack() {
+  accBox.classList.add('opacity-0','blur-xl','-translate-x-2')
+  accBox.addEventListener('transitionend', fadeBck)
+}
+
+
+
 
 // userPanel.addEventListener("transitionend", function () {
 //   if (userPanel.classList.contains("-translate-y-full") == true) {
