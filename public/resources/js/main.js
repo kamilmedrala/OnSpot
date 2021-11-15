@@ -44,9 +44,9 @@ userPanelBtn.addEventListener("touchstart", function () {
 
 function move(e) {
   clientY = e.touches[0].clientY - window.innerHeight + 52;
+  if(clientY<=0){
   userPanel.style.setProperty("transform", "translateY(" + clientY + "px)");
-  console.log(clientY);
-  
+  }
 }
 
 
@@ -78,7 +78,6 @@ const registerBox = document.getElementById("user_panel-account-register");
 
 
 function fadeRegister() {
-  console.log("koniec");
   accBox.prepend(registerBox);
   accBox.classList.remove('opacity-0','lg:-translate-x-2');
   accBox.removeEventListener('transitionend', fadeRegister)
@@ -91,7 +90,6 @@ function openRegister() {
 }
 
 function fadeBck() {
-  console.log("koniec");
   accBox.prepend(loginBox);
   accBox.classList.remove('opacity-0','lg:-translate-x-2');
   accBox.removeEventListener('transitionend', fadeBck)
