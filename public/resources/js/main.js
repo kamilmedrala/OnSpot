@@ -3,13 +3,15 @@ const userPanelBtn = document.getElementById("user_panel_btn");
 const userPanelContainer = document.getElementById("user_panel_container");
 var panelState = true;
 
-const userNav = document.getElementById("user_nav");
+const navContainer = document.getElementById("user_nav");
+const navBlank = document.getElementById("nav_blank");
+
 
 const mapContainer = document.getElementById("map_container");
 
 function Hide() {
-  userNav.classList.add("rounded-3xl");
-  userNav.classList.remove("rounded-t-3xl");
+  navContainer.classList.add("rounded-3xl");
+  navContainer.classList.remove("rounded-t-3xl");
   userPanelContainer.classList.replace("h-0", "h-full");
   userPanel.classList.add("-translate-y-full");
   panelState=false;
@@ -19,19 +21,24 @@ function Hide() {
   }
 }
 
-function Show() {
-  userNav.classList.remove("rounded-3xl");
-  userNav.classList.add("rounded-t-3xl");
-  userPanelContainer.classList.replace("h-0", "h-full");
-  userPanel.classList.remove("-translate-y-full");
-  panelState=true;
-
-  if (panelState && window.innerWidth < 1024) {
-    mapContainer.classList.add("brightness-50");
+function Toggle() {
+  if (panelState) {
+    Hide();
+  }
+  else{
+    navContainer.classList.remove("rounded-3xl");
+    navContainer.classList.add("rounded-t-3xl");
+    userPanelContainer.classList.replace("h-0", "h-full");
+    userPanel.classList.remove("-translate-y-full");
+    panelState=true;
+  
+    if (panelState && window.innerWidth < 1024) {
+      mapContainer.classList.add("brightness-50");
+    }
   }
 }
 
-userNav.addEventListener("click", Show);
+navBlank.addEventListener("click", Toggle);
 userPanelBtn.addEventListener("click", Hide);
 
 var clientY;

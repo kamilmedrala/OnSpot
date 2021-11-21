@@ -14,22 +14,29 @@ const auth = firebase.auth();
 
 const accMain = document.getElementById("user_panel-account");
 
+  //user account alerts
+const alrtLogin = document.getElementById("login-alert");
+const alrtReg = document.getElementById("register-alert");
+const successReg = document.getElementById("register-success");
+
 
 function login(){
 
-    email = document.getElementById("email_field").value;
-    password = document.getElementById("password_field").value;
+  email = document.getElementById("email_field").value;
+  password = document.getElementById("password_field").value;
+  
+  alrtLogin.classList.add('hidden');
 
     auth.signInWithEmailAndPassword( email, password)
             .then((userCredential) => {
-              console.log(userCredential.user)
-              alert("Logged in");
+              // console.log(userCredential.user)
               const user = firebase.auth().currentUser;
               accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white"> <h1>Hello, ${user.displayName} </h1></div> </div>`)
               hide();
             })
             .catch((error) => {
-              alert(error.message);
+              alrtLogin.classList.remove('hidden');
+              alrtLogin.innerText = error.message;
             });
 }
 
@@ -45,15 +52,22 @@ function register(){
                 user.updateProfile({
                     displayName: document.getElementById("register_username_field").value
                 })
-              console.log(userCredential.user)
-              alert("Account created! You can now log in.")
+
+              successReg.classList.remove('hidden');
+              successReg.innerText = "Account created! You can now log in.";
+              
+              alrtReg.classList.add('hidden');
+              // console.log(userCredential.user)
               accBack();
             })
             .catch((error) => {
-              alert(error.message);
+              successReg.classList.remove('hidden');
+              alrtReg.classList.remove('hidden');
+              alrtReg.innerText = error.message;
             });
       }
       else{
-          alert("Passwords are not the same.");
+          alrtReg.classList.remove('hidden');
+          alrtReg.innerText = "Passwords are not the same.";
       }
     }

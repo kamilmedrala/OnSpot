@@ -19,7 +19,7 @@
       <div class="absolute top-0 left-0 w-full lg:w-phonewide h-full lg:ml-6 px-4 pb-14 pt-6">
 
         <nav id="user_nav" class=" relative w-full flex justify-between p-2 bg-yellow-300 rounded-t-3xl filter drop-shadow-xl text-white select-none duration-300 z-20">
-          <p class="text-3xl">OnSpot</p>
+          <p id="nav_blank" class="text-3xl w-full">OnSpot</p>
           
           <div class="flex">
             <div id="note_btn" class="filter drop-shadow-md transform hover:scale-105 duration-150 ">
@@ -41,9 +41,10 @@
             <div class="h-full mt-8 px-10 overflow-y-scroll">
               <div id="user_panel-notes" class="hidden"></div>
               <div id="user_panel-account" class="overflow-x-hidden h-full flex flex-col justify-center">
-                
                 <div id="user_panel-account-container" class="flex gap-4 max-w-xs w-full sm:w-2/5 mx-auto duration-150 overflow-x-hidden lg:transform">
                   <div id="user_panel-account-login" class="flex flex-col flex-shrink-0 w-full mt-4 items-center">
+                    <div id="login-alert" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-red-300 shadow-sm bg-red-600 border-red-600"> </div>
+                    <div id="register-success" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-green-400 shadow-sm bg-green-600 border-green-400"></div>
                     <form class="flex flex-col justify-around text-white mb-8">
                       <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="email_field" type="email" placeholder="Enter your email..." />
                       <input
@@ -59,6 +60,7 @@
                   </div>
 
                   <div id="user_panel-account-register" class="flex-shrink-0 w-full ">
+                    <div id="register-alert" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-red-300 shadow-sm bg-red-600 border-red-600 mx-auto"> </div>
                     <form class="flex flex-col justify-around text-white mb-8">
                       <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_username_field" type="text" placeholder="Username..." />
                       <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_email_field" type="text" placeholder="Email..." />
