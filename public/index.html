@@ -10,7 +10,9 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300;1,400;1,600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="resources/style.css" />
-    <link rel="stylesheet" href="resources/custom.css">
+    <link rel="stylesheet" href="resources/custom.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     
     <title>OnSpot notes</title>
   </head>
@@ -37,55 +39,58 @@
         </nav>
 
         <div id="user_panel_container" class="relative w-full h-full -top-7 overflow-hidden min-h-phone">
-          <div id="user_panel" class="absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
-            <div class="h-full mt-8 px-10 overflow-y-scroll">
-              <div id="user_panel-notes" class="hidden"></div>
-              <div id="user_panel-account" class="overflow-x-hidden h-full flex flex-col justify-center">
-                <div id="user_panel-account-container" class="flex gap-4 max-w-xs w-full sm:w-2/5 mx-auto duration-150 overflow-x-hidden lg:transform">
-                  <div id="user_panel-account-login" class="flex flex-col flex-shrink-0 w-full mt-4 items-center">
-                    <div id="login-alert" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-red-300 shadow-sm bg-red-600 border-red-600"> </div>
-                    <div id="register-success" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-green-400 shadow-sm bg-green-600 border-green-400"></div>
-                    <form class="flex flex-col justify-around text-white mb-8">
-                      <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="email_field" type="email" placeholder="Enter your email..." />
-                      <input
-                      class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none"
-                      id="password_field"
-                      type="password"
-                      placeholder="Enter your password..."
-                      />
-                    </form>
-                    <button onclick="login()" class=" w-full py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Login </button>
-                    <p class="text-gray-300 text-sm mt-4 mb-2">Don't have an account yet?</p>
-                    <button onclick="openRegister()" class=" w-full py-2 text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Create an account </button>  
+          <div id="user_panel" class=" absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
+            <div class="swiper w-full h-full mt-8 px-10 overflow-y-scroll">
+              <div class="swiper-wrapper">
+                <div id="user_panel-notes" class="swiper-slide"></div>
+                <div id="user_panel-account" class="swiper-slide overflow-x-hidden h-full flex flex-col justify-center">
+                  <div id="user_panel-account-container" class="flex gap-4 max-w-xs w-full sm:w-2/5 mx-auto duration-150 overflow-x-hidden lg:transform">
+                    <div id="user_panel-account-login" class="flex flex-col flex-shrink-0 w-full mt-4 items-center">
+                      <div id="login-alert" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-red-300 shadow-sm bg-red-600 border-red-600"> </div>
+                      <div id="register-success" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-green-400 shadow-sm bg-green-600 border-green-400 mt-2"></div>
+                      <form class="flex flex-col justify-around text-white mb-8">
+                        <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="email_field" type="email" placeholder="Enter your email..." />
+                        <input
+                        class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none"
+                        id="password_field"
+                        type="password"
+                        placeholder="Enter your password..."
+                        />
+                      </form>
+                      <button onclick="login()" class=" w-full py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Login </button>
+                      <p class="text-gray-300 text-sm mt-4 mb-2">Don't have an account yet?</p>
+                      <button onclick="openRegister()" class=" w-full py-2 text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Create an account </button>  
+                    </div>
+  
+                    <div id="user_panel-account-register" class="flex-shrink-0 w-full ">
+                      <div id="register-alert" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-red-300 shadow-sm bg-red-600 border-red-600 mx-auto"> </div>
+                      <form class="flex flex-col justify-around text-white mb-8">
+                        <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_username_field" type="text" placeholder="Username..." />
+                        <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_email_field" type="text" placeholder="Email..." />
+                        <input
+                        class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none"
+                        id="register_password_field"
+                        type="password"
+                        placeholder="Password..."
+                        />
+                        <input
+                        class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none"
+                        id="register_password_field_2"
+                        type="password"
+                        placeholder="Repeat password..."
+                        />
+                        
+                      </form>
+                      <button onclick="register()" class=" w-full py-2 mt-4 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Register </button>
+                      <button onclick="accBack()" id="user_panel-account-btn-back" class="block select-none mx-auto mt-4 border-b border-gray-300 cursor-pointer">
+                        <i class="material-icons text-gray-300 text-xl select-none">arrow_back</i>
+                        <p class="text-gray-300 float-right"> go back </p>
+                      </button>
+                    </div>
+                    
                   </div>
-
-                  <div id="user_panel-account-register" class="flex-shrink-0 w-full ">
-                    <div id="register-alert" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-red-300 shadow-sm bg-red-600 border-red-600 mx-auto"> </div>
-                    <form class="flex flex-col justify-around text-white mb-8">
-                      <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_username_field" type="text" placeholder="Username..." />
-                      <input class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none " id="register_email_field" type="text" placeholder="Email..." />
-                      <input
-                      class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none"
-                      id="register_password_field"
-                      type="password"
-                      placeholder="Password..."
-                      />
-                      <input
-                      class="w-full p-2 bg-transparent border-b border-yellow-300 rounded-none"
-                      id="register_password_field_2"
-                      type="password"
-                      placeholder="Repeat password..."
-                      />
-                      
-                    </form>
-                    <button onclick="register()" class=" w-full py-2 mt-4 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Register </button>
-                    <button onclick="accBack()" id="user_panel-account-btn-back" class="block select-none mx-auto mt-4 border-b border-gray-300 cursor-pointer">
-                      <i class="material-icons text-gray-300 text-xl select-none">arrow_back</i>
-                      <p class="text-gray-300 float-right"> go back </p>
-                    </button>
-                  </div>
-                  
                 </div>
+
               </div>
             </div>
             <div id="user_panel_btn" class=" w-3/5 mx-auto border-t border-white border-opacity-10 select-none flex justify-center">
@@ -101,6 +106,7 @@
     </div>
   </body>
   <script src="resources/js/main.js"></script>
+  <script src="resources/js/swiper.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
