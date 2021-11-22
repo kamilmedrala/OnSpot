@@ -33,10 +33,6 @@ function login(){
               // var userinfo = userCredential.user;
 
               const user = firebase.auth().currentUser;
-              accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white text-center mt-4"> <h1>Hello, ${user.displayName} </h1></div> </div>`);
-              accBox.classList.add('hidden');
-              logOutBtn.classList.remove('hidden'); 
-              document.getElementById('user_notes-unsigned').classList.add('hidden');
             })
             .catch((error) => {
               alrtLogin.classList.remove('hidden');
@@ -59,7 +55,6 @@ function register(){
 
               successReg.classList.remove('hidden');
               successReg.innerText = "Account created! You can now log in.";
-              
               alrtReg.classList.add('hidden');
               // console.log(userCredential.user)
               accBack();
@@ -76,12 +71,25 @@ function register(){
       }
 }
 
-function logOut() {
-  auth.signOut().then(()=>{
-    document.getElementById('user_pannel-account-loggedin').remove();
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white text-center mt-4"> <h1>Hello, ${user.displayName} </h1></div> </div>`);
+    accBox.classList.add('hidden');
+    logOutBtn.classList.remove('hidden'); 
+    document.getElementById('user_notes-unsigned').classList.add('hidden');
+  } 
+  else {
     accBox.classList.remove('hidden');
     logOutBtn.classList.add('hidden');
     document.getElementById('user_notes-unsigned').classList.remove('hidden');
+  }
+});
+
+
+function logOut() {
+  auth.signOut().then(()=>{
+    console.log("Logout succesful");
+    document.getElementById('user_pannel-account-loggedin').remove();
   }).catch((error) => {
     alert(error.message);
   });
