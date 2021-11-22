@@ -10,6 +10,7 @@ const firebaseConfig = {
   
   // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
+
 const auth = firebase.auth();
 
 const accMain = document.getElementById("user_panel-account");
@@ -29,10 +30,13 @@ function login(){
 
     auth.signInWithEmailAndPassword( email, password)
             .then((userCredential) => {
-              // console.log(userCredential.user)
+              // var userinfo = userCredential.user;
+
               const user = firebase.auth().currentUser;
-              accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white"> <h1>Hello, ${user.displayName} </h1></div> </div>`)
-              hide();
+              accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white text-center mt-4"> <h1>Hello, ${user.displayName} </h1></div> </div>`);
+              accBox.classList.add('hidden');
+              logOutBtn.classList.remove('hidden'); 
+              document.getElementById('user_notes-unsigned').classList.add('hidden');
             })
             .catch((error) => {
               alrtLogin.classList.remove('hidden');
@@ -70,4 +74,59 @@ function register(){
           alrtReg.classList.remove('hidden');
           alrtReg.innerText = "Passwords are not the same.";
       }
-    }
+}
+
+function logOut() {
+  auth.signOut().then(()=>{
+    document.getElementById('user_pannel-account-loggedin').remove();
+    accBox.classList.remove('hidden');
+    logOutBtn.classList.add('hidden');
+    document.getElementById('user_notes-unsigned').classList.remove('hidden');
+  }).catch((error) => {
+    alert(error.message);
+  });
+};
+
+
+const accBox = document.getElementById("user_panel-account-container");
+const loginBox = document.getElementById("user_panel-account-login");
+const registerBox = document.getElementById("user_panel-account-register");
+
+const loginBtn = document.getElementById("btn_login");
+const regBtn = document.getElementById("btn_reg");
+const regBtnOpen = document.getElementById("btn_open-register")
+const regBackBtn = document.getElementById("btn_reg-back");
+const logOutBtn = document.getElementById('btn_logout');
+
+
+
+
+function fadeRegister() {
+  accBox.prepend(registerBox);
+  accBox.classList.remove('opacity-0','lg:-translate-x-2');
+  accBox.removeEventListener('transitionend', fadeRegister)
+}
+
+function openRegister() {
+  accBox.classList.add('opacity-0','lg:-translate-x-2')
+  accBox.addEventListener('transitionend', fadeRegister)
+
+}
+
+function fadeBck() {
+  accBox.prepend(loginBox);
+  accBox.classList.remove('opacity-0','lg:-translate-x-2');
+  accBox.removeEventListener('transitionend', fadeBck);
+}
+
+function accBack() {
+  accBox.classList.add('opacity-0','lg:-translate-x-2');
+  accBox.addEventListener('transitionend', fadeBck);
+}
+
+
+loginBtn.addEventListener('click', login);
+regBtn.addEventListener('click', register);
+regBtnOpen.addEventListener('click',openRegister);
+regBackBtn.addEventListener('click', accBack);
+logOutBtn.addEventListener('click', logOut);

@@ -20,15 +20,17 @@
     <div class="h-screen w-screen overflow-y-hidden">
       <div class="absolute top-0 left-0 w-full lg:w-phonewide h-full lg:ml-6 px-4 pb-14 pt-6">
 
-        <nav id="user_nav" class=" relative w-full flex justify-between p-2 bg-yellow-300 rounded-t-3xl filter drop-shadow-xl text-white select-none duration-300 z-20">
+        <nav id="user_nav" class="active relative w-full flex justify-between p-2 bg-yellow-300 rounded-t-3xl filter drop-shadow-xl text-white select-none duration-300 z-20">
           <p id="nav_blank" class="text-3xl w-full">OnSpot</p>
           
           <div class="flex">
-            <div id="note_btn" class="filter drop-shadow-md transform hover:scale-105 duration-150 ">
+            <div id="note_btn" class="nav-btn filter drop-shadow-md hover:scale-105 duration-150 ">
               <i class="material-icons text-4xl align-middle mr-4 cursor-pointer">sticky_note_2</i>
+              <div class="dot transition duration-150 opacity-0 absolute bg-gray-600 h-2 left-3.5 rounded-full top-10 w-2"></div>
             </div>
-            <div id="user_btn" class="filter drop-shadow-md transform hover:scale-105 duration-150">
+            <div id="user_btn" class="nav-btn filter drop-shadow-md hover:scale-105 duration-150">
               <i class="material-icons text-4xl align-middle cursor-pointer">person</i>
+              <div class="dot transition duration-150 opacity-0 absolute bg-gray-600 h-2 left-3.5 rounded-full top-10 w-2"></div>
             </div>
           </div>
 
@@ -42,7 +44,13 @@
           <div id="user_panel" class=" absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
             <div class="swiper w-full h-full mt-8 px-10 overflow-y-scroll">
               <div class="swiper-wrapper">
-                <div id="user_panel-notes" class="swiper-slide"></div>
+                <div id="user_panel-notes" class="swiper-slide h-full flex flex-col items-center justify-center">
+                  <div id="user_notes-unsigned">
+                    <i class="material-icons text-3xl text-gray-300 text-center w-full">note_add</i>
+                    <p class="text-gray-300">Log in to add new notes</p>
+                  </div>
+                  <div id="user_notes-logged"></div>
+                </div>
                 <div id="user_panel-account" class="swiper-slide overflow-x-hidden h-full flex flex-col justify-center">
                   <div id="user_panel-account-container" class="flex gap-4 max-w-xs w-full sm:w-2/5 mx-auto duration-150 overflow-x-hidden lg:transform">
                     <div id="user_panel-account-login" class="flex flex-col flex-shrink-0 w-full mt-4 items-center">
@@ -57,9 +65,9 @@
                         placeholder="Enter your password..."
                         />
                       </form>
-                      <button onclick="login()" class=" w-full py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Login </button>
+                      <button id="btn_login"  class=" w-full py-2 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Login </button>
                       <p class="text-gray-300 text-sm mt-4 mb-2">Don't have an account yet?</p>
-                      <button onclick="openRegister()" class=" w-full py-2 text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Create an account </button>  
+                      <button id="btn_open-register" class=" w-full py-2 text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Create an account </button>  
                     </div>
   
                     <div id="user_panel-account-register" class="flex-shrink-0 w-full ">
@@ -81,14 +89,16 @@
                         />
                         
                       </form>
-                      <button onclick="register()" class=" w-full py-2 mt-4 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Register </button>
-                      <button onclick="accBack()" id="user_panel-account-btn-back" class="block select-none mx-auto mt-4 border-b border-gray-300 cursor-pointer">
+                      <button id="btn_reg" class=" w-full py-2 mt-4 text-white hover:bg-yellow-400 bg-yellow-300 rounded-3xl duration-200 shadow-sm "> Register </button>
+                      <button id="btn_reg-back" class="block select-none mx-auto mt-4 border-b border-gray-300 cursor-pointer">
                         <i class="material-icons text-gray-300 text-xl select-none">arrow_back</i>
                         <p class="text-gray-300 float-right"> go back </p>
                       </button>
                     </div>
-                    
+
                   </div>
+                  <button id="btn_logout" class="hidden w-max py-2 px-4 mb-8 mx-auto text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Log Out </button>  
+
                 </div>
 
               </div>
