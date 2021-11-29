@@ -49,7 +49,20 @@
                     <i class="material-icons text-3xl text-gray-300 text-center w-full">note_add</i>
                     <p class="text-gray-300">Log in to add new notes</p>
                   </div>
-                  <div id="user_notes-logged"></div>
+                  <div id="user_notes-logged" class="hidden h-full w-full p-8 text-white">
+
+                    <div id="note_container" class="relative transition hover:shadow-md hover:bg-white hover:bg-opacity-10 rounded-3xl">
+                      <div id="btn_note-create" class="flex transition group justify-between overflow-hidden items-start p-2 px-4">
+                        <h2 id="btn_note-create-text" class="text-2xl z-40 text-white cursor-pointer w-full transition">Add new note</h2>
+                        <i  id="btn_note-create-icon" class="material-icons z-50 text-3xl group-hover:text-yellow-300 transition duration-300 transform cursor-pointer">add</i>
+                      </div>
+                      <div id="text_note" class="hidden opacity-0 transition duration-300">
+                        <textarea id="note_content-title" rows="1" placeholder="Add Title" class="text-black absolute w-full top-0 left-0 bg-transparent resize-none mr-14 text-2xl py-2 px-4"></textarea>
+                        <textarea id="note_content-text" rows="1" placeholder="Write down your thoughts!" class="max-h-80 border-0 border-t border-gray-500 mt-1 mb-4 resize-none text-black w-full bg-transparent p-4"></textarea>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
                 <div id="user_panel-account" class="swiper-slide overflow-x-hidden h-full flex flex-col justify-center">
                   <div id="user_panel-account-container" class="flex gap-4 max-w-xs w-full sm:w-2/5 mx-auto duration-150 overflow-x-hidden lg:transform">

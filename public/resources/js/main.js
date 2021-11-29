@@ -90,10 +90,42 @@ document.addEventListener('DOMContentLoaded',function () {
 
 
 
-  // userPanel.addEventListener("transitionend", function () {
-  //   if (userPanel.classList.contains("-translate-y-full") == true) {
-  //     userPanelContainer.classList.replace("h-full", "h-0");
-  //   }
-  // });
+  //adding Notes styles
+
+  const noteCrtContainer = document.getElementById("note_container");
+  const noteCrtHeader = document.getElementById("btn_note-create-text");
+  const noteCrtBtn = document.getElementById("btn_note-create");
+  const noteCrtIcon = document.getElementById("btn_note-create-icon");
+  const noteCrtTxt = document.getElementById("text_note");
+  const noteCrtTxtTitle = document.getElementById("note_content-title");
+  const noteCrtTxtDesc = document.getElementById("note_content-text");
+
+
+
+  noteCrtBtn.addEventListener('click',function () {
+    noteCrtContainer.classList.toggle('bg-white');
+    noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
+    noteCrtContainer.classList.toggle('shadow-lg');
+    noteCrtHeader.classList.toggle('opacity-0');
+    noteCrtHeader.classList.toggle('z-40');
+    noteCrtIcon.classList.toggle('text-black');
+    noteCrtIcon.classList.toggle('-rotate-45');
+    noteCrtTxt.classList.toggle('hidden');
+    noteCrtTxt.classList.toggle('opacity-100')
+
+    if (noteCrtTxtTitle.value) {
+      noteCrtHeader.innerText = noteCrtTxtTitle.value;
+      noteCrtIcon.innerText = 'edit';
+    }
+    else{
+      noteCrtHeader.innerText = 'Add new note'
+      noteCrtIcon.innerText = 'add';
+    }
+  })
+
+  noteCrtTxtDesc.addEventListener('input', function () {
+    this.style.height = "";
+    this.style.height = this.scrollHeight + "px";
+  })
   
 });

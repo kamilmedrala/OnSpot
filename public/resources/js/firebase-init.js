@@ -1,3 +1,5 @@
+// const { set, ref } = require("@firebase/database");
+
 const firebaseConfig = {
     apiKey: "AIzaSyAwlv1-TlCCIMOxWvGadtP6Bv2v68cJYNo",
     authDomain: "onspot-472c7.firebaseapp.com",
@@ -12,6 +14,7 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
+// const database = firebase.getDatabase();
 
 const accMain = document.getElementById("user_panel-account");
 
@@ -58,6 +61,7 @@ function register(){
               alrtReg.classList.add('hidden');
               // console.log(userCredential.user)
               accBack();
+              // writeUserToDb();
             })
             .catch((error) => {
               successReg.classList.remove('hidden');
@@ -77,11 +81,13 @@ auth.onAuthStateChanged((user) => {
     accBox.classList.add('hidden');
     logOutBtn.classList.remove('hidden'); 
     document.getElementById('user_notes-unsigned').classList.add('hidden');
+    document.getElementById('user_notes-logged').classList.remove('hidden');
   } 
   else {
     accBox.classList.remove('hidden');
     logOutBtn.classList.add('hidden');
     document.getElementById('user_notes-unsigned').classList.remove('hidden');
+    document.getElementById('user_notes-logged').classList.add('hidden');
   }
 });
 
@@ -138,3 +144,12 @@ regBtn.addEventListener('click', register);
 regBtnOpen.addEventListener('click',openRegister);
 regBackBtn.addEventListener('click', accBack);
 logOutBtn.addEventListener('click', logOut);
+
+
+
+  // Database
+// function writeUserToDb() {
+//   set(ref(database, 'users/' + userId),{
+//     username: user.uid,
+//   });
+// }
