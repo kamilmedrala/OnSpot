@@ -45,21 +45,26 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     var noteCounter=0;
+    var NoteElements;
     app.auth().onAuthStateChanged((logged) => {
         if (logged) {
         const user = firebase.auth().currentUser;
+        db.ref('users/' + user.uid + '/notes').get().then((snapshot) =>{
+            NoteElements=snapshot.val();
+            for (let i = 1; i < NoteElements.length; i++) {
+                noteCrtContainer.insertAdjacentHTML('afterend',`<h1 data-j="${i}">${NoteElements[i].Title}</h1>`)      
+            }
+        })
         const notesCountRef = db.ref('users/' + user.uid + '/noteCount');            
             notesCountRef.get().then((snapshot) => {
                 noteCounter = snapshot.val();
                 if (noteCounter==null) {
                     noteCounter=0;
                 }
-                console.log(noteCounter);
-            
             })
             
             noteSaveIcon.addEventListener('click',function () {
-                    addNoteDb(user,noteCounter+1)      
+                    addNoteDb(user,noteCounter+1);      
             })
         } 
     });
