@@ -12,30 +12,45 @@ const firebaseConfig = {
   
   // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-
+const appSecondary = firebase.initializeApp(firebaseConfig,'temporary');
 const auth = firebase.auth();
-// const database = firebase.getDatabase();
+const db = firebase.database();
+
+
+//user account elements
+const accBox = document.getElementById("user_panel-account-container");
+const loginBox = document.getElementById("user_panel-account-login");
+const registerBox = document.getElementById("user_panel-account-register");
+
+const loginBtn = document.getElementById("btn_login");
+const regBtn = document.getElementById("btn_reg");
+const regBtnOpen = document.getElementById("btn_open-register")
+const regBackBtn = document.getElementById("btn_reg-back");
+const logOutBtn = document.getElementById('btn_logout');
 
 const accMain = document.getElementById("user_panel-account");
 
-  //user account alerts
 const alrtLogin = document.getElementById("login-alert");
 const alrtReg = document.getElementById("register-alert");
 const successReg = document.getElementById("register-success");
 
-
 function login(){
 
-  email = document.getElementById("email_field").value;
-  password = document.getElementById("password_field").value;
+  let email = document.getElementById("email_field").value;
+  let password = document.getElementById("password_field").value;
   
   alrtLogin.classList.add('hidden');
 
-    auth.signInWithEmailAndPassword( email, password)
+  auth.signInWithEmailAndPassword( email, password)
             .then((userCredential) => {
-              // var userinfo = userCredential.user;
+              //let user = firebase.auth().currentUser;
 
-              const user = firebase.auth().currentUser;
+              // accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white text-center mt-4"> <h1>Hello, ${user.displayName} </h1></div> </div>`);
+              // accBox.classList.add('hidden');
+              // logOutBtn.classList.remove('hidden'); 
+              // document.getElementById('user_notes-unsigned').classList.add('hidden');
+              // document.getElementById('user_notes-logged').classList.remove('hidden');
+              
             })
             .catch((error) => {
               alrtLogin.classList.remove('hidden');
@@ -44,17 +59,19 @@ function login(){
 }
 
 function register(){
-      email = document.getElementById("register_email_field").value;
-      password = document.getElementById("register_password_field").value;
-      password2 = document.getElementById("register_password_field_2").value;
+      let email = document.getElementById("register_email_field").value;
+      let password = document.getElementById("register_password_field").value;
+      let password2 = document.getElementById("register_password_field_2").value;
     
       if(password===password2){
-          auth.createUserWithEmailAndPassword( email, password)
+        appSecondary.auth().createUserWithEmailAndPassword( email, password)
             .then((userCredential) => {
-                let user = firebase.auth().currentUser;
-                user.updateProfile({
-                    displayName: document.getElementById("register_username_field").value
-                })
+              var user = appSecondary.auth().currentUser;
+              user.updateProfile({
+                  displayName: document.getElementById("register_username_field").value
+              })
+
+              appSecondary.auth().signOut();
 
               successReg.classList.remove('hidden');
               successReg.innerText = "Account created! You can now log in.";
@@ -62,6 +79,13 @@ function register(){
               // console.log(userCredential.user)
               accBack();
               // writeUserToDb();
+              
+              db.ref('users/' + user.uid).set({
+                  noteCount: 0,
+                  notes: 'null',
+                });
+              
+              // auth.signOut();
             })
             .catch((error) => {
               successReg.classList.remove('hidden');
@@ -75,13 +99,14 @@ function register(){
       }
 }
 
-auth.onAuthStateChanged((user) => {
+app.auth().onAuthStateChanged((user) => {
   if (user) {
     accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white text-center mt-4"> <h1>Hello, ${user.displayName} </h1></div> </div>`);
-    accBox.classList.add('hidden');
-    logOutBtn.classList.remove('hidden'); 
-    document.getElementById('user_notes-unsigned').classList.add('hidden');
-    document.getElementById('user_notes-logged').classList.remove('hidden');
+              accBox.classList.add('hidden');
+              logOutBtn.classList.remove('hidden'); 
+              document.getElementById('user_notes-unsigned').classList.add('hidden');
+              document.getElementById('user_notes-logged').classList.remove('hidden');
+    
   } 
   else {
     accBox.classList.remove('hidden');
@@ -94,25 +119,18 @@ auth.onAuthStateChanged((user) => {
 
 function logOut() {
   auth.signOut().then(()=>{
+
+    // accBox.classList.remove('hidden');
+    // logOutBtn.classList.add('hidden');
+    // document.getElementById('user_notes-unsigned').classList.remove('hidden');
+    // document.getElementById('user_notes-logged').classList.add('hidden');
+
     console.log("Logout succesful");
     document.getElementById('user_pannel-account-loggedin').remove();
   }).catch((error) => {
     alert(error.message);
   });
 };
-
-
-const accBox = document.getElementById("user_panel-account-container");
-const loginBox = document.getElementById("user_panel-account-login");
-const registerBox = document.getElementById("user_panel-account-register");
-
-const loginBtn = document.getElementById("btn_login");
-const regBtn = document.getElementById("btn_reg");
-const regBtnOpen = document.getElementById("btn_open-register")
-const regBackBtn = document.getElementById("btn_reg-back");
-const logOutBtn = document.getElementById('btn_logout');
-
-
 
 
 function fadeRegister() {
@@ -147,7 +165,7 @@ logOutBtn.addEventListener('click', logOut);
 
 
 
-  // Database
+// Database
 // function writeUserToDb() {
 //   set(ref(database, 'users/' + userId),{
 //     username: user.uid,
