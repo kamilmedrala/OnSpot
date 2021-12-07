@@ -127,8 +127,9 @@ function logOut() {
 
     console.log("Logout succesful");
     document.getElementById('user_pannel-account-loggedin').remove();
-  }).catch((error) => {
-    alert(error.message);
+    
+    }).catch((error) => {
+      alert(error.message);
   });
 };
 
