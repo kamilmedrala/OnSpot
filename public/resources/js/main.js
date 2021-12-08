@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded',function () {
   const navUser = document.getElementById("user_btn");
   const navNotes = document.getElementById("note_btn");
 
-  const mapContainer = document.getElementById("map_container");
+  const mapContainer = document.getElementById("map");
 
   function Hide() {
     navContainer.classList.add("rounded-3xl");
@@ -85,5 +85,5 @@ document.addEventListener('DOMContentLoaded',function () {
       Hide();
     }
   });
-  
+  // Hide(); //temporary hide user panel for easier map development
 });
