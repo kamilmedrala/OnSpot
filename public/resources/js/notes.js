@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
         noteCrtTxtTitle.value="";
         noteCrtTxtDesc.value="";
       }
+      if (marker!=0) {
+        map.removeLayer(marker);
+      }
     
     })
     
@@ -77,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 NoteContent = "Brak opisu";
               }
                 noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${i}" data-js-location="${NoteElements[i].Location}" style="max-height:40px;"><h3 class="text-black pr-8 ">${NoteElements[i].Title}</h3><p class="text-black"></br> ${NoteContent}</p></div>`)      
-                Tag(NoteElements[i].Location)
+                Tag(NoteElements[i].Location,NoteElements[i].Title)
             }
           }
           let Notes = document.getElementsByClassName('note');
@@ -158,16 +161,17 @@ document.addEventListener('DOMContentLoaded', function () {
       attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
     }).addTo(map);
 
-    function Tag(address) {
+
+    function Tag(address,msg) {
     if(address!=undefined){
-      console.log(address)
       var coordinates;
     fetch(` //nominatim.openstreetmap.org/search?format=json&q=${address} `)
     .then(function(response) {
       return response.json();
     }).then(function (responseJson) {
       coordinates=[responseJson[0].lat,responseJson[0].lon];
-      var marker= L.marker([coordinates[0],coordinates[1]]).addTo(map)
+      let noteMarker = L.marker([coordinates[0],coordinates[1]]).addTo(map)
+      noteMarker.bindPopup(`<b>${msg}<br />`)
     })  
     }  
   }
@@ -180,13 +184,45 @@ document.addEventListener('DOMContentLoaded', function () {
       return response.json();
     }).then(function (responseJson) {
       coordinates=[responseJson[0].lat,responseJson[0].lon];
-      map.flyTo([coordinates[0],coordinates[1]-0.5],10, {
+      map.flyTo([coordinates[0],coordinates[1]-0.4],10, {
         "animate": true,
         "duration": 2
       });
     })  
     }  
   }
+
+  var marker=0;
+  map.on('click',function (e) {
+    console.log(e.latlng);
+    map.flyTo([e.latlng.lat,e.latlng.lng-0.4],10, {
+      "animate": true,
+      "duration": 2
+    });
+    marker = L.marker([e.latlng.lat,e.latlng.lng]).addTo(map)
+
+    noteCrtContainer.classList.toggle('bg-white');
+      noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
+      noteCrtContainer.classList.toggle('shadow-lg');
+      noteCrtHeader.classList.toggle('opacity-0');
+      noteCrtHeader.classList.toggle('z-40');
+      noteSaveIcon.classList.toggle('opacity-0');
+      noteSaveIcon.classList.toggle('pointer-events-none');
+      noteCrtIcon.classList.toggle('text-black');
+      noteCrtIcon.classList.toggle('-rotate-45');
+      noteCrtTxt.classList.toggle('hidden');
+      noteCrtTxt.classList.toggle('opacity-100');
+      
+    
+      if (noteCrtContainer.getAttribute('data-js-opened')==0) {
+        noteCrtContainer.setAttribute('data-js-opened', '1')  
+        noteCrtTxtTitle.value="";
+        noteCrtTxtLocation.value=`${e.latlng.lat} , ${e.latlng.lng}`;
+        noteCrtTxtDesc.value="";
+      }
+
+    
+  })
 
 
 
