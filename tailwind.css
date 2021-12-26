@@ -16,9 +16,13 @@
 
 .note{
     will-change: height;
-    @apply transition-all duration-300 overflow-hidden bg-white rounded-3xl p-2 px-4 mb-4 cursor-pointer hover:shadow-md;
+    @apply transition-all relative duration-300 overflow-hidden bg-white rounded-3xl p-2 px-4 mb-4 cursor-pointer hover:shadow-md;
 }
 
 .note[data-js-opened="0"] h3{
     @apply line-clamp-1;
+}
+
+.note[data-js-opened="0"] .delete{
+    @apply opacity-0;
 }

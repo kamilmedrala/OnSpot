@@ -520,6 +520,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 0px;
 }
 
+.right-5 {
+  right: 1.25rem;
+}
+
+.top-1 {
+  top: 0.25rem;
+}
+
 .z-20 {
   z-index: 20;
 }
@@ -1078,6 +1086,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .note{
   will-change: height;
+  position: relative;
   margin-bottom: 1rem;
   cursor: pointer;
   overflow: hidden;
@@ -1103,6 +1112,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+}
+
+.note[data-js-opened="0"] .delete {
+  opacity: 0;
 }
 
 .hover\:scale-105:hover {
@@ -1145,10 +1158,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @media (min-width: 640px) {
-  .sm\:block {
-    display: block;
-  }
-
   .sm\:w-2\/5 {
     width: 40%;
   }
@@ -1169,6 +1178,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .lg\:ml-6 {
     margin-left: 1.5rem;
+  }
+
+  .lg\:block {
+    display: block;
   }
 
   .lg\:w-phonewide {

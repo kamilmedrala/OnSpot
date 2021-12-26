@@ -54,14 +54,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     
     var noteCounter=0;
-    var NoteElements='';
+    var NoteElements;
     app.auth().onAuthStateChanged((logged) => {
         if (logged) {
         clearNotes();
         const user = firebase.auth().currentUser;
         updateNoteDisplay(user);    
           noteSaveIcon.addEventListener('click',function () {   
-              addNoteDb(user,noteCounter+1);
+              addNoteDb(user,noteCounter + 1);
           })
         } 
     });
@@ -72,15 +72,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateNoteDisplay(user) {
       db.ref('users/' + user.uid + '/notes').get().then((snapshot) =>{
+          NoteElements=0;
           NoteElements=snapshot.val();
-          if(NoteElements!=null){
-            for (let i = 1; i < NoteElements.length; i++) {
-              let NoteContent = NoteElements[i].Content;
-              if (NoteContent=='') {
-                NoteContent = "Brak opisu";
-              }
-                noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${i}" data-js-location="${NoteElements[i].Location}" style="max-height:40px;"><h3 class="text-black pr-8 ">${NoteElements[i].Title}</h3><p class="text-black"></br> ${NoteContent}</p></div>`)      
+          if(NoteElements!='null' && NoteElements!=null){
+            NoteElements = Object.values(NoteElements);
+            console.log(NoteElements);
+            console.log(NoteElements.length);
+
+            console.log(NoteElements.length);
+            console.log('wchodzimy');
+            for (let i = 0; i < NoteElements.length; i++) {
+              if (NoteElements[i]!= null) {
+                console.log('weszlo do ' + i);
+                let NoteContent = NoteElements[i].Content;
+                if (NoteContent=='') {
+                  NoteContent = "No description";
+                }
+                let NoteTitle = NoteElements[i].Title;
+                if (NoteTitle=='') {
+                  NoteTitle = "No title";
+                }
+                noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${NoteElements[i].ID}" data-js-location="${NoteElements[i].Location}" style="max-height:40px;"><h3 class="text-black pr-8 ">${NoteTitle}</h3> <i class="delete hover:text-yellow-300 transition absolute material-icons right-5 text-black text-xl top-1">delete</i> <p class="text-black"></br> ${NoteContent}</p></div>`)      
                 Tag(NoteElements[i].Location,NoteElements[i].Title)
+              }
             }
           }
           let Notes = document.getElementsByClassName('note');
@@ -99,6 +113,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.style.maxHeight='40px';
                 this.setAttribute('data-js-opened','0');
               }
+            })
+
+            //DELETING NOTE
+
+            Notes[i].querySelector('.delete').addEventListener('click', function () {
+              Notes[i].style.maxHeight='40px'; 
+              setTimeout(function () {                
+                Notes[i].style.transform = 'translateX(-100%)';
+                Notes[i].style.opacity = '0';
+
+            
+              },200)
+              setTimeout(function () {
+                console.log('zaro usuna notatka nr:' + Notes[i].getAttribute('data-js'));
+                removeNoteDb(user,Notes[i].getAttribute('data-js'));
+                Notes[i].style.display='none';
+              },500)
             })
           }
       })
@@ -129,6 +160,8 @@ document.addEventListener('DOMContentLoaded', function () {
         noteCount: value,
       });
       db.ref('users/' + user.uid +'/notes/' + value ).set({
+        
+        ID: value,
         Title: noteCrtTxtTitle.value,
         Location: noteCrtTxtLocation.value,
         Content: noteCrtTxtDesc.value,
@@ -138,8 +171,26 @@ document.addEventListener('DOMContentLoaded', function () {
     
     }
 
+    function removeNoteDb(user,id) {
+      console.log('removing');
+        db.ref('users/' + user.uid + '/notes/' + id).remove().then(function () {
+          console.log('Succesfully removed');
+        });
+      
+      }
+
 
     // MAP
+
+    var yellowIcon = L.icon({
+      iconUrl: 'resources/img/location-pin.png',
+  
+      iconSize:     [40, 40], // size of the icon
+      // shadowSize:   [50, 64], // size of the shadow
+      iconAnchor:   [20, 40], // point of the icon which will correspond to marker's location
+      // shadowAnchor: [4, 62],  // the same for the shadow
+      // popupAnchor:  [-3, -30] // point from which the popup should open relative to the iconAnchor
+  });
 
     const searchbarBtn = document.getElementById('searchbarBtn')
 
@@ -163,21 +214,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function Tag(address,msg) {
-    if(address!=undefined){
+    if(address!=undefined && address!=''){
       var coordinates;
     fetch(` //nominatim.openstreetmap.org/search?format=json&q=${address} `)
     .then(function(response) {
       return response.json();
     }).then(function (responseJson) {
       coordinates=[responseJson[0].lat,responseJson[0].lon];
-      let noteMarker = L.marker([coordinates[0],coordinates[1]]).addTo(map)
+      let noteMarker = L.marker([coordinates[0],coordinates[1]], {icon: yellowIcon}).addTo(map)
       noteMarker.bindPopup(`<b>${msg}<br />`)
     })  
     }  
   }
 
   function Fly(address) {
-    if(address!='undefined'){
+    if(address!=undefined && address!=''){
       var coordinates;
     fetch(` //nominatim.openstreetmap.org/search?format=json&q=${address} `)
     .then(function(response) {
