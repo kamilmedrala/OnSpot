@@ -92,8 +92,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (NoteTitle=='') {
                   NoteTitle = "No title";
                 }
-                noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${NoteElements[i].ID}" data-js-location="${NoteElements[i].Location}" style="max-height:40px;"><h3 class="text-black pr-8 ">${NoteTitle}</h3> <i class="delete hover:text-yellow-300 transition absolute material-icons right-5 text-black text-xl top-1">delete</i> <p class="text-black"></br> ${NoteContent}</p></div>`)      
-                Tag(NoteElements[i].Location,NoteElements[i].Title)
+                noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${NoteElements[i].ID}" data-js-location="${NoteElements[i].Location}" ><h3 class="text-black pr-8 ">${NoteTitle}</h3> <i class="delete hover:text-yellow-300 transition absolute material-icons right-5 text-black text-xl top-1">delete</i> <p class="text-black"></br> ${NoteContent}</p></div>`)      
+                Tag(NoteElements[i].Location,NoteElements[i].Title,NoteElements[i].ID)
               }
             }
           }
@@ -102,15 +102,15 @@ document.addEventListener('DOMContentLoaded', function () {
             Notes[i].addEventListener('click',function () {
               if(this.getAttribute('data-js-opened')=='0'){
                 for (let j = 0; j < Notes.length; j++) {
-                  Notes[j].style.maxHeight='40px';
+                  // Notes[j].style.maxHeight='40px';
                   Notes[j].setAttribute('data-js-opened','0');
                 }
-                this.style.maxHeight='300px';
+                // this.style.maxHeight='300px';
                 Fly(this.getAttribute('data-js-location'))
                 this.setAttribute('data-js-opened','1');
               }
               else{
-                this.style.maxHeight='40px';
+                // this.style.maxHeight='40px';
                 this.setAttribute('data-js-opened','0');
               }
             })
@@ -173,14 +173,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function removeNoteDb(user,id) {
       console.log('removing');
-        db.ref('users/' + user.uid + '/notes/' + id).remove().then(function () {
-          console.log('Succesfully removed');
-        });
-      
-      }
+      db.ref('users/' + user.uid + '/notes/' + id).remove().then(function () {
+        console.log('Succesfully removed');
+      });  
+    }
 
 
     // MAP
+    var offset;
+
+    if (window.innerWidth> 1024) {
+      offset = 0.4;
+    }
+    else{
+      offset = 0;
+    }
+    
+    window.onresize = function () {
+      if (window.innerWidth> 1024) {
+        offset = 0.4;
+      }
+      else{
+        offset = 0;
+      }
+    }
+
 
     var yellowIcon = L.icon({
       iconUrl: 'resources/img/location-pin.png',
@@ -189,18 +206,21 @@ document.addEventListener('DOMContentLoaded', function () {
       // shadowSize:   [50, 64], // size of the shadow
       iconAnchor:   [20, 40], // point of the icon which will correspond to marker's location
       // shadowAnchor: [4, 62],  // the same for the shadow
-      // popupAnchor:  [-3, -30] // point from which the popup should open relative to the iconAnchor
-  });
+       popupAnchor:  [0, -35] // point from which the popup should open relative to the iconAnchor
+    });
 
     const searchbarBtn = document.getElementById('searchbarBtn')
 
     searchbarBtn.addEventListener('click',function () {
       var where = document.getElementById('searchbar').value;
       if (where) {
-        Search(where);
+        Fly(where);
       }
       
     })
+
+    navigator.geolocation.getCurrentPosition(GeoSuccess,GeoError);
+
 
     const map = L.map('map',{zoomControl: false}).setView([0,0],2);
     map.options.minZoom = 2;
@@ -213,7 +233,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }).addTo(map);
 
 
-    function Tag(address,msg) {
+//MAP TILES TEST 
+
+    document.getElementById('mapSat').addEventListener('click',function () {
+      L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
+      this.classList.toggle("bg-gray-100");
+        
+    })
+
+    document.getElementById('mapDark').addEventListener('click',function () {
+      L.tileLayer('https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
+      this.classList.toggle("bg-gray-100");
+    })
+
+    
+
+
+
+
+    var baseCoords;
+    function GeoSuccess(position) {
+      console.log(position.coords);
+      baseCoords = [position.coords.latitude,position.coords.longitude]
+      map.flyTo([baseCoords[0],baseCoords[1] - offset*4],8, {
+        "animate": true,
+        "duration": 1
+      });
+    }
+    function GeoError(error) {
+      console.log(error);
+    }
+
+
+    function Tag(address,msg,id) {
     if(address!=undefined && address!=''){
       var coordinates;
     fetch(` //nominatim.openstreetmap.org/search?format=json&q=${address} `)
@@ -223,6 +275,12 @@ document.addEventListener('DOMContentLoaded', function () {
       coordinates=[responseJson[0].lat,responseJson[0].lon];
       let noteMarker = L.marker([coordinates[0],coordinates[1]], {icon: yellowIcon}).addTo(map)
       noteMarker.bindPopup(`<b>${msg}<br />`)
+      if (id!= undefined) {
+        noteMarker.on('click',function () {
+          document.querySelector(`[data-js="${id}"]`).setAttribute('data-js-opened','1');
+          swiper.slidePrev();
+        })
+      }
     })  
     }  
   }
@@ -235,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return response.json();
     }).then(function (responseJson) {
       coordinates=[responseJson[0].lat,responseJson[0].lon];
-      map.flyTo([coordinates[0],coordinates[1]-0.4],10, {
+      map.flyTo([coordinates[0],coordinates[1] - offset*0.5],11, {
         "animate": true,
         "duration": 2
       });
@@ -243,37 +301,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }  
   }
 
+  
   var marker=0;
   map.on('click',function (e) {
-    console.log(e.latlng);
-    map.flyTo([e.latlng.lat,e.latlng.lng-0.4],10, {
-      "animate": true,
-      "duration": 2
-    });
-    marker = L.marker([e.latlng.lat,e.latlng.lng]).addTo(map)
+      if(noteCrtContainer.getAttribute('data-js-opened')==0){
+      console.log(e.latlng);
+      map.flyTo([e.latlng.lat,e.latlng.lng - offset],10, {
+        "animate": true,
+        "duration": 2
+      });
+      marker = L.marker([e.latlng.lat,e.latlng.lng], {icon: yellowIcon}).addTo(map)
 
-    noteCrtContainer.classList.toggle('bg-white');
-      noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
-      noteCrtContainer.classList.toggle('shadow-lg');
-      noteCrtHeader.classList.toggle('opacity-0');
-      noteCrtHeader.classList.toggle('z-40');
-      noteSaveIcon.classList.toggle('opacity-0');
-      noteSaveIcon.classList.toggle('pointer-events-none');
-      noteCrtIcon.classList.toggle('text-black');
-      noteCrtIcon.classList.toggle('-rotate-45');
-      noteCrtTxt.classList.toggle('hidden');
-      noteCrtTxt.classList.toggle('opacity-100');
+      noteCrtContainer.classList.toggle('bg-white');
+        noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
+        noteCrtContainer.classList.toggle('shadow-lg');
+        noteCrtHeader.classList.toggle('opacity-0');
+        noteCrtHeader.classList.toggle('z-40');
+        noteSaveIcon.classList.toggle('opacity-0');
+        noteSaveIcon.classList.toggle('pointer-events-none');
+        noteCrtIcon.classList.toggle('text-black');
+        noteCrtIcon.classList.toggle('-rotate-45');
+        noteCrtTxt.classList.toggle('hidden');
+        noteCrtTxt.classList.toggle('opacity-100');
+        
       
-    
-      if (noteCrtContainer.getAttribute('data-js-opened')==0) {
-        noteCrtContainer.setAttribute('data-js-opened', '1')  
-        noteCrtTxtTitle.value="";
-        noteCrtTxtLocation.value=`${e.latlng.lat} , ${e.latlng.lng}`;
-        noteCrtTxtDesc.value="";
-      }
+        if (noteCrtContainer.getAttribute('data-js-opened')==0) {
+          noteCrtContainer.setAttribute('data-js-opened', '1')  
+          noteCrtTxtTitle.value="";
+          noteCrtTxtLocation.value=`${e.latlng.lat} , ${e.latlng.lng}`;
+          noteCrtTxtDesc.value="";
+        }     
 
-    
-  })
+        swiper.slidePrev();
+        marker.bindPopup(`<b class="text-center"> Open notes panel to create <br> a new note or cancel </b>`).openPopup();
+      }
+    })
 
 
 

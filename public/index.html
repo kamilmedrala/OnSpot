@@ -51,7 +51,7 @@
                     <i class="material-icons text-3xl text-gray-300 text-center w-full">note_add</i>
                     <p class="text-gray-300">Log in to add new notes</p>
                   </div>
-                  <div id="user_notes-logged" class="hidden h-full w-full p-8 text-white overflow-y-scroll">
+                  <div id="user_notes-logged" class="hidden h-full w-full p-2 sm:p-8 text-white overflow-y-scroll">
 
                     <div id="note_container" data-js-opened="0" class="relative transition hover:shadow-md hover:bg-white hover:bg-opacity-10 rounded-3xl mb-4">
                       <div id="btn_note-create" class="flex transition justify-between overflow-hidden items-start p-2 px-4">
@@ -114,6 +114,10 @@
                     </div>
 
                   </div>
+                  <div class="flex justify-center items-center">
+                    <button id="mapSat" class=" w-max py-2 px-4 mb-8 mx-auto text-white bg-opacity-20 rounded-3xl border border-green-800 duration-200 shadow-sm ">Satelite</button>
+                    <button id="mapDark" class=" w-max py-2 px-4 mb-8 mx-auto text-white bg-opacity-20 rounded-3xl border border-yellow-700 duration-200 shadow-sm ">Dark</button>
+                  </div>
                   <button id="btn_logout" class="hidden w-max py-2 px-4 mb-8 mx-auto text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Log Out </button>  
 
                 </div>
@@ -121,7 +125,7 @@
               </div>
             </div>
             <div id="user_panel_btn" class=" w-3/5 mx-auto border-t border-white border-opacity-10 select-none flex justify-center">
-              <i class="material-icons text-gray-300 text-5xl transform hover:scale-105 duration-150 select-none ">expand_less</i>
+              <i class="material-icons text-gray-300 text-2xl lg:text-5xl transform hover:scale-105 duration-150 select-none ">expand_less</i>
             </div>
           </div>
         </div>
