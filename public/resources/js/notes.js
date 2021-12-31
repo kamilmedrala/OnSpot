@@ -237,13 +237,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('mapSat').addEventListener('click',function () {
       L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
-      this.classList.toggle("bg-gray-100");
+        
+    })
+
+    document.getElementById('mapDef').addEventListener('click',function () {
+      L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
         
     })
 
     document.getElementById('mapDark').addEventListener('click',function () {
       L.tileLayer('https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
-      this.classList.toggle("bg-gray-100");
     })
 
     
