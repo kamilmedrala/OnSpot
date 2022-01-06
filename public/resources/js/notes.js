@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const noteCrtTxtTitle = document.getElementById("note_content-title");
     const noteCrtTxtLocation = document.getElementById("note_content-location");
     const noteCrtTxtDesc = document.getElementById("note_content-text");
+    const showOne = document.getElementById('option_showOne');
     
     
     noteCrtBtn.addEventListener('click',function () {
@@ -101,9 +102,11 @@ document.addEventListener('DOMContentLoaded', function () {
           for(let i = 0; i< Notes.length;i++){
             Notes[i].addEventListener('click',function () {
               if(this.getAttribute('data-js-opened')=='0'){
-                for (let j = 0; j < Notes.length; j++) {
-                  // Notes[j].style.maxHeight='40px';
-                  Notes[j].setAttribute('data-js-opened','0');
+                if (showOne.checked){
+                  for (let j = 0; j < Notes.length; j++) {
+                    // Notes[j].style.maxHeight='40px';
+                    Notes[j].setAttribute('data-js-opened','0');
+                  }
                 }
                 // this.style.maxHeight='300px';
                 Fly(this.getAttribute('data-js-location'))
@@ -209,6 +212,16 @@ document.addEventListener('DOMContentLoaded', function () {
        popupAnchor:  [0, -35] // point from which the popup should open relative to the iconAnchor
     });
 
+    var dotIcon = L.icon({
+      iconUrl: 'resources/img/location-here.png',
+  
+      iconSize:     [40, 40], // size of the icon
+      // shadowSize:   [50, 64], // size of the shadow
+      iconAnchor:   [20, 25], // point of the icon which will correspond to marker's location
+      // shadowAnchor: [4, 62],  // the same for the shadow
+       popupAnchor:  [0, -35] // point from which the popup should open relative to the iconAnchor
+    });
+
     const searchbarBtn = document.getElementById('searchbarBtn')
 
     searchbarBtn.addEventListener('click',function () {
@@ -228,25 +241,28 @@ document.addEventListener('DOMContentLoaded', function () {
     L.control.zoom({
       position: 'bottomright'
     }).addTo(map);
-    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI',{
+    const Tiles = L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI',{
       attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
     }).addTo(map);
 
 
-//MAP TILES TEST 
+//MAP TILES TEST
 
+    
+    
     document.getElementById('mapSat').addEventListener('click',function () {
-      L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
-        
+      Tiles.setUrl('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=Vp06Pe6Ut4DX53ApAkJI')
+      document.querySelector('html').classList.remove('dark');        
     })
 
     document.getElementById('mapDef').addEventListener('click',function () {
-      L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
-        
+      Tiles.setUrl('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI')
+      document.querySelector('html').classList.remove('dark');
     })
 
     document.getElementById('mapDark').addEventListener('click',function () {
-      L.tileLayer('https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI').addTo(map);
+      Tiles.setUrl('https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI')
+      document.querySelector('html').classList.toggle('dark');
     })
 
     
@@ -262,6 +278,18 @@ document.addEventListener('DOMContentLoaded', function () {
         "animate": true,
         "duration": 1
       });
+
+      document.getElementById('locationBtn').addEventListener('click',function () {
+        map.flyTo([baseCoords[0],baseCoords[1] - offset*0.01],17, {
+          "animate": true,
+          "duration": 1
+        });
+        marker = L.marker([baseCoords[0],baseCoords[1]], {icon: dotIcon}).addTo(map)
+        marker.bindPopup(`<b class="text-center"> You are somewhere here. </b>`)
+        marker._icon.classList.add('animate-pulse');
+
+      })
+
     }
     function GeoError(error) {
       console.log(error);
@@ -280,6 +308,12 @@ document.addEventListener('DOMContentLoaded', function () {
       noteMarker.bindPopup(`<b>${msg}<br />`)
       if (id!= undefined) {
         noteMarker.on('click',function () {
+          if (showOne.checked) {
+            let Notes = document.getElementsByClassName('note');
+            for (let j = 0; j < Notes.length; j++) {
+              Notes[j].setAttribute('data-js-opened','0');
+            }
+          }
           document.querySelector(`[data-js="${id}"]`).setAttribute('data-js-opened','1');
           swiper.slidePrev();
         })

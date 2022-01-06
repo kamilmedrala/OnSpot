@@ -27,6 +27,7 @@ const regBtn = document.getElementById("btn_reg");
 const regBtnOpen = document.getElementById("btn_open-register")
 const regBackBtn = document.getElementById("btn_reg-back");
 const logOutBtn = document.getElementById('btn_logout');
+const usrSettings = document.getElementById('user_settings');
 
 const accMain = document.getElementById("user_panel-account");
 
@@ -101,18 +102,23 @@ function register(){
 
 app.auth().onAuthStateChanged((user) => {
   if (user) {
-    accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full h-full"><div class=" text-2xl text-white text-center mt-4"> <h1>Hello, ${user.displayName} </h1></div> </div>`);
+    accMain.insertAdjacentHTML('afterbegin', `<div id="user_pannel-account-loggedin" class="w-full "><div class=" text-2xl text-white text-center mt-4"> <h1>Hello, ${user.displayName} </h1></div> </div>`);
               accBox.classList.add('hidden');
               logOutBtn.classList.remove('hidden'); 
+              usrSettings.classList.remove('hidden');
               document.getElementById('user_notes-unsigned').classList.add('hidden');
               document.getElementById('user_notes-logged').classList.remove('hidden');
+    document.getElementById('options').classList.remove('hidden')
     
   } 
   else {
     accBox.classList.remove('hidden');
     logOutBtn.classList.add('hidden');
+    usrSettings.classList.add('hidden');
     document.getElementById('user_notes-unsigned').classList.remove('hidden');
     document.getElementById('user_notes-logged').classList.add('hidden');
+    document.getElementById('options').classList.add('hidden')
+
   }
 });
 

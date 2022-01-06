@@ -23,15 +23,15 @@
       <div class="absolute top-0 left-0 w-full lg:w-phonewide h-full lg:ml-6 px-4 pb-14 pt-6">
 
         <nav id="user_nav" class="active relative w-full flex justify-between p-2 bg-yellow-300 rounded-t-3xl filter drop-shadow-xl text-white select-none duration-300 z-20">
-          <p id="nav_blank" class="text-3xl w-full">OnSpot</p>
+          <p id="nav_blank" class="text-3xl w-full dark:text-gray-800 transition">OnSpot</p>
           
           <div class="flex">
             <div id="note_btn" class="nav-btn filter drop-shadow-md hover:scale-105 duration-150 ">
-              <i class="material-icons text-4xl align-middle mr-4 cursor-pointer">sticky_note_2</i>
+              <i class="material-icons text-4xl align-middle mr-4 cursor-pointer dark:text-gray-800 transition">sticky_note_2</i>
               <div class="dot transition duration-150 opacity-0 absolute bg-gray-600 h-2 left-3.5 rounded-full top-10 w-2"></div>
             </div>
             <div id="user_btn" class="nav-btn filter drop-shadow-md hover:scale-105 duration-150">
-              <i class="material-icons text-4xl align-middle cursor-pointer">person</i>
+              <i class="material-icons text-4xl align-middle cursor-pointer dark:text-gray-800 transition ">person</i>
               <div class="dot transition duration-150 opacity-0 absolute bg-gray-600 h-2 left-3.5 rounded-full top-10 w-2"></div>
             </div>
           </div>
@@ -43,7 +43,7 @@
         </nav>
 
         <div id="user_panel_container" class="relative w-full h-full -top-7 overflow-hidden min-h-phone">
-          <div id="user_panel" class=" absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
+          <div id="user_panel" class=" absolute flex flex-col justify-end w-full h-full min-h-phone bg-gray-600 dark:bg-black dark:bg-opacity-40 transition rounded-3xl backdrop-filter backdrop-blur-sm bg-opacity-70 transform duration-300 z-10">
             <div class="swiper w-full h-full mt-8 px-10 overflow-y-scroll">
               <div class="swiper-wrapper">
                 <div id="user_panel-notes" class="swiper-slide h-full flex flex-col items-center justify-center">
@@ -68,7 +68,7 @@
 
                   </div>
                 </div>
-                <div id="user_panel-account" class="swiper-slide overflow-x-hidden h-full flex flex-col justify-center">
+                <div id="user_panel-account" class="swiper-slide overflow-x-hidden h-full flex flex-col ">
                   <div id="user_panel-account-container" class="flex gap-4 max-w-xs w-full sm:w-2/5 mx-auto duration-150 overflow-x-hidden lg:transform">
                     <div id="user_panel-account-login" class="flex flex-col flex-shrink-0 w-full mt-4 items-center">
                       <div id="login-alert" class="hidden p-2 relative bg-opacity-10 border rounded-3xl w-3/4 text-center text-red-300 shadow-sm bg-red-600 border-red-600"> </div>
@@ -114,11 +114,22 @@
                     </div>
 
                   </div>
-                  <div class="flex justify-center items-center">
+
+                  <div id="user_settings" class="hidden m-5 md:m-10 h-full text-white text-base">
+                    <ul class="flex flex-col">
+                      <li>
+                        <input class="mr-5 appearance-none w-10 rounded-full border border-solid border-yellow-300 float-left h-6 align-top bg-white dark:bg-black bg-opacity-40  focus:outline-none cursor-pointer shadow-sm after:content-[''] checked:after:bg-yellow-300 after:bg-gray-500 after:h-[22px] after:w-[22px] after:absolute relative after:left-0 after:top-0 after:rounded-full after:transform after:transition checked:after:translate-x-[17px]" id="option_showOne" type="checkbox" role="switch" checked>
+                        <label for="option_showOne">Only one note expanded</label>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div id="options" class="hidden flex justify-center items-center">
                     <button id="mapSat" class=" w-max py-2 px-4 mb-8 mx-auto text-white bg-opacity-20 rounded-3xl border border-green-800 duration-200 shadow-sm ">Satelite</button>
                     <button id="mapDef" class=" w-max py-2 px-4 mb-8 mx-auto text-white bg-opacity-20 rounded-3xl border border-gray-300 duration-200 shadow-sm ">Classic</button>
                     <button id="mapDark" class=" w-max py-2 px-4 mb-8 mx-auto text-white bg-opacity-20 rounded-3xl border border-yellow-700 duration-200 shadow-sm ">Dark</button>
                   </div>
+                  
                   <button id="btn_logout" class="hidden w-max py-2 px-4 mb-8 mx-auto text-white hover:bg-yellow-400 hover:bg-opacity-20 rounded-3xl border border-yellow-300 duration-200 shadow-sm "> Log Out </button>  
 
                 </div>
@@ -132,9 +143,12 @@
         </div>
 
       </div>
-      <div class="absolute filter hidden lg:block drop-shadow-lg bottom-2 lg:bottom-auto right-1/4 lg:top-0 lg:right-0 z-10 max-w-xs pt-6 px-4">
-        <input id="searchbar" type="text" class="text-white placeholder-gray-100 bg-opacity-30 border border-solid border-yellow-200 bg-gray-500 rounded-full w-full p-2 text-3xl " placeholder="Search">
-        <i id="searchbarBtn" class="text-white hover:text-yellow-300 material-icons absolute right-8 bottom-2 text-3xl">search</i>
+      <div class="absolute filter hidden lg:block drop-shadow-lg bottom-2 lg:bottom-auto right-1/4 lg:top-0 lg:right-0 z-10 max-w-xs mt-6 mx-4 backdrop-filter backdrop-blur-sm ">
+        <input id="searchbar" type="text" class="text-white placeholder-gray-100 bg-opacity-30 dark:bg-black dark:bg-opacity-40 transition border border-solid border-yellow-200 bg-gray-600 rounded-full w-full p-2 text-3xl " placeholder="Search">
+        <i id="searchbarBtn" class="text-white hover:text-yellow-300 material-icons transition absolute right-8 bottom-2 text-3xl ">search</i>
+      </div>
+      <div class="absolute filter lg:block drop-shadow-lg bottom-32 right-[10px] z-[1]  p-5 backdrop-filter backdrop-blur-sm bg-opacity-30 dark:bg-black dark:bg-opacity-40 transition border border-solid border-yellow-200 bg-gray-600 rounded-full ">
+        <i id="locationBtn" class="text-white top-1 left-1 cursor-pointer hover:text-yellow-300 material-icons transition absolute text-3xl ">near_me</i>
       </div>
 
       
