@@ -1162,6 +1162,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   transition-duration: 200ms;
 }
 
+.will-change-transform {
+  will-change: transform;
+}
+
 .active .swiper-button-disabled {
   --tw-translate-y: -0.25rem;
   transform: var(--tw-transform);
