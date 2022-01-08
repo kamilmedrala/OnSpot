@@ -67,6 +67,13 @@ document.addEventListener('DOMContentLoaded', function () {
               addNoteDb(user,noteCounter + 1);
           })
         } 
+        else{
+          if (noteMarkerTables.length>0) {
+            for(i in noteMarkerTables){
+              map.removeLayer(noteMarkerTables[i])
+            }
+          }
+        }
     });
 
 
@@ -292,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(error);
     }
 
-
+    var noteMarkerTables= [];
     function Tag(address,msg,id) {
     if(address!=undefined && address!=''){
       var coordinates;
@@ -315,6 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
           swiper.slidePrev();
         })
       }
+      noteMarkerTables.push(noteMarker);
     })  
     }  
   }
@@ -370,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         marker.bindPopup(`<b class="text-center"> Open notes panel to create <br> a new note or cancel </b>`).openPopup();
         if (onCreateOpen.checked) {
-          map.once('zoomend', function () {
+          map.once('moveend', function () {
             document.getElementById("user_nav").classList.add("active");
             document.getElementById("user_nav").classList.remove("rounded-3xl");
             document.getElementById("user_nav").classList.add("rounded-t-3xl");
