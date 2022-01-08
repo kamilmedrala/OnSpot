@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('wchodzimy');
             for (let i = 0; i < NoteElements.length; i++) {
               if (NoteElements[i]!= null) {
-                console.log('weszlo do ' + i);
+                // console.log('weszlo do ' + i);
                 let NoteContent = NoteElements[i].Content;
                 if (NoteContent=='') {
                   NoteContent = "No description";

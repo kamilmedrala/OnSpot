@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded',function () {
   function move(e) {
     clientY = e.touches[0].clientY - window.innerHeight + 52;
     clientY = Math.trunc(clientY);
-    console.log(clientY);
     if(clientY<=0){
     userPanel.style.setProperty("transform", "translateY(" + clientY + "px)");
     }
