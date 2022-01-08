@@ -1,6 +1,6 @@
 module.exports = {
   
-  content: [
+  purge: [
     'public/index.html',
     'public/resources/js/*'
   ],

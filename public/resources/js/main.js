@@ -1,9 +1,9 @@
+var panelState = true;
 document.addEventListener('DOMContentLoaded',function () {
 
   const userPanel = document.getElementById("user_panel");
   const userPanelBtn = document.getElementById("user_panel_btn");
   const userPanelContainer = document.getElementById("user_panel_container");
-  var panelState = true;
 
 
   const navContainer = document.getElementById("user_nav");
@@ -85,5 +85,5 @@ document.addEventListener('DOMContentLoaded',function () {
       Hide();
     }
   });
-  // Hide(); //temporary hide user panel for easier map development
+
 });

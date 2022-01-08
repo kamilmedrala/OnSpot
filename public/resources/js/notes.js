@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const noteCrtTxtLocation = document.getElementById("note_content-location");
     const noteCrtTxtDesc = document.getElementById("note_content-text");
     const showOne = document.getElementById('option_showOne');
+    const mapAnim = document.getElementById('option_mapAnim');
+    const onCreateOpen = document.getElementById('option_onCreateOpen')
     
     
     noteCrtBtn.addEventListener('click',function () {
@@ -93,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (NoteTitle=='') {
                   NoteTitle = "No title";
                 }
-                noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${NoteElements[i].ID}" data-js-location="${NoteElements[i].Location}" ><h3 class="text-black pr-8 ">${NoteTitle}</h3> <i class="delete hover:text-yellow-300 transition absolute material-icons right-5 text-black text-xl top-1">delete</i> <p class="text-black"></br> ${NoteContent}</p></div>`)      
+                noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${NoteElements[i].ID}" data-js-location="${NoteElements[i].Location}" ><h3 class="text-black pr-8 ">${NoteTitle}</h3> <i class="delete hover:text-yellow-300 transition absolute material-icons right-5 text-black text-xl top-1">delete</i> <span class="block text-black text-sm py-1.5 mt-2 border-x-0 border-y border-black dark:border-white border-opacity-10 dark:border-opacity-10 border-solid"> ${NoteElements[i].Location} </span> <p class="text-black pt-2"> ${NoteContent}</p></div>`)      
                 Tag(NoteElements[i].Location,NoteElements[i].Title,NoteElements[i].ID)
               }
             }
@@ -248,8 +250,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //MAP TILES TEST
 
-    
-    
+
+
     document.getElementById('mapSat').addEventListener('click',function () {
       Tiles.setUrl('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=Vp06Pe6Ut4DX53ApAkJI')
       document.querySelector('html').classList.remove('dark');        
@@ -262,26 +264,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('mapDark').addEventListener('click',function () {
       Tiles.setUrl('https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI')
-      document.querySelector('html').classList.toggle('dark');
+      document.querySelector('html').classList.add('dark');
     })
-
-    
-
-
-
 
     var baseCoords;
     function GeoSuccess(position) {
       console.log(position.coords);
       baseCoords = [position.coords.latitude,position.coords.longitude]
       map.flyTo([baseCoords[0],baseCoords[1] - offset*4],8, {
-        "animate": true,
+        "animate": (mapAnim.checked) ? true:false,
         "duration": 1
       });
 
       document.getElementById('locationBtn').addEventListener('click',function () {
         map.flyTo([baseCoords[0],baseCoords[1] - offset*0.01],17, {
-          "animate": true,
+          "animate": (mapAnim.checked) ? true:false,
           "duration": 1
         });
         marker = L.marker([baseCoords[0],baseCoords[1]], {icon: dotIcon}).addTo(map)
@@ -331,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }).then(function (responseJson) {
       coordinates=[responseJson[0].lat,responseJson[0].lon];
       map.flyTo([coordinates[0],coordinates[1] - offset*0.5],11, {
-        "animate": true,
+        "animate": (mapAnim.checked) ? true:false,
         "duration": 2
       });
     })  
@@ -344,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if(noteCrtContainer.getAttribute('data-js-opened')==0){
       console.log(e.latlng);
       map.flyTo([e.latlng.lat,e.latlng.lng - offset],10, {
-        "animate": true,
+        "animate": (mapAnim.checked) ? true:false,
         "duration": 2
       });
       marker = L.marker([e.latlng.lat,e.latlng.lng], {icon: yellowIcon}).addTo(map)
@@ -370,7 +367,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }     
 
         swiper.slidePrev();
+
         marker.bindPopup(`<b class="text-center"> Open notes panel to create <br> a new note or cancel </b>`).openPopup();
+        if (onCreateOpen.checked) {
+          map.once('zoomend', function () {
+            document.getElementById("user_nav").classList.add("active");
+            document.getElementById("user_nav").classList.remove("rounded-3xl");
+            document.getElementById("user_nav").classList.add("rounded-t-3xl");
+            document.getElementById("user_panel_container").classList.replace("h-0", "h-full");
+            document.getElementById("user_panel").classList.remove("-translate-y-full");
+            panelState=true;
+          
+            if (panelState && window.innerWidth < 1024) {
+              document.getElementById("map").classList.add("brightness-50");
+            }
+
+          })
+        }
       }
     })
 
