@@ -61,12 +61,15 @@ document.addEventListener('DOMContentLoaded',function () {
 
   userPanelBtn.addEventListener("touchstart", function () {
     userPanel.classList.remove("duration-300");
+    userPanel.classList.add("duration-[1ms]");
     userPanelBtn.addEventListener("touchmove", move);
   });
 
 
   function move(e) {
     clientY = e.touches[0].clientY - window.innerHeight + 52;
+    clientY = Math.trunc(clientY);
+    console.log(clientY);
     if(clientY<=0){
     userPanel.style.setProperty("transform", "translateY(" + clientY + "px)");
     }
@@ -76,12 +79,10 @@ document.addEventListener('DOMContentLoaded',function () {
   userPanelBtn.addEventListener("touchend", function () {
     userPanel.style.removeProperty('transform');
     userPanel.classList.add("duration-300");
+    userPanel.classList.remove("duration-[1ms]");
 
     if (clientY < -(window.innerHeight/3)) {
       clientY=0;
-      userPanelBtn.removeEventListener("touchmove",move);
-      userPanel.style.removeProperty('transform');
-      userPanel.classList.add("duration-300");
       Hide();
     }
   });

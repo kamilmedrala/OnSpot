@@ -654,12 +654,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .h-full {
   height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
 }
 
 .h-2 {
@@ -1201,6 +1201,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .duration-200 {
   transition-duration: 200ms;
+}
+
+.duration-\[1ms\] {
+  transition-duration: 1ms;
 }
 
 .will-change-transform {
