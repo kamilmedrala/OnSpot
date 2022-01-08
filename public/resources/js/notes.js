@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         marker.bindPopup(`<b class="text-center"> Open notes panel to create <br> a new note or cancel </b>`).openPopup();
         if (onCreateOpen.checked) {
-          map.once('moveend', function () {
+          map.once('zoomend', function () {
             document.getElementById("user_nav").classList.add("active");
             document.getElementById("user_nav").classList.remove("rounded-3xl");
             document.getElementById("user_nav").classList.add("rounded-t-3xl");
