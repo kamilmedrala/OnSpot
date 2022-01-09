@@ -1,7 +1,7 @@
 //adding Notes styles and db functionality
 // const db = firebase.database();
 
-
+var noteMarkerTables= [];
 document.addEventListener('DOMContentLoaded', function () {
     
     const noteCrtContainer = document.getElementById("note_container");
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     
     var noteCounter=0;
-    var NoteElements;
     app.auth().onAuthStateChanged((logged) => {
         if (logged) {
         clearNotes();
@@ -79,16 +78,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
+    
     function updateNoteDisplay(user) {
+      var NoteElements;
+      var noteMarkerNumBfr = noteMarkerTables.length;
+      console.log(noteMarkerNumBfr);
       db.ref('users/' + user.uid + '/notes').get().then((snapshot) =>{
+          // noteMarkerTables= [];
           NoteElements=0;
           NoteElements=snapshot.val();
           if(NoteElements!='null' && NoteElements!=null){
             NoteElements = Object.values(NoteElements);
-            console.log(NoteElements);
-            console.log(NoteElements.length);
-
+            // console.log(NoteElements);
             console.log(NoteElements.length);
             console.log('wchodzimy');
             for (let i = 0; i < NoteElements.length; i++) {
@@ -103,11 +104,14 @@ document.addEventListener('DOMContentLoaded', function () {
                   NoteTitle = "No title";
                 }
                 noteCrtContainer.insertAdjacentHTML('afterend',`<div class="note" data-js-opened="0" data-js="${NoteElements[i].ID}" data-js-location="${NoteElements[i].Location}" ><h3 class="text-black pr-8 ">${NoteTitle}</h3> <i class="delete hover:text-yellow-300 transition absolute material-icons right-5 text-black text-xl top-1">delete</i> <span class="block text-black text-sm py-1.5 mt-2 border-x-0 border-y border-black dark:border-white border-opacity-10 dark:border-opacity-10 border-solid"> ${NoteElements[i].Location} </span> <p class="text-black pt-2"> ${NoteContent}</p></div>`)      
-                Tag(NoteElements[i].Location,NoteElements[i].Title,NoteElements[i].ID)
               }
             }
+            TagAll(noteMarkerNumBfr,NoteElements)
           }
+
+
           let Notes = document.getElementsByClassName('note');
+          console.log(Notes);
           for(let i = 0; i< Notes.length;i++){
             Notes[i].addEventListener('click',function () {
               if(this.getAttribute('data-js-opened')=='0'){
@@ -138,13 +142,14 @@ document.addEventListener('DOMContentLoaded', function () {
             
               },200)
               setTimeout(function () {
-                console.log('zaro usuna notatka nr:' + Notes[i].getAttribute('data-js'));
-                removeNoteDb(user,Notes[i].getAttribute('data-js'));
+                console.log('Usuwana notatka nr:' + Notes[i].getAttribute('data-js'));
+                removeNoteDb(user,Notes[i].getAttribute('data-js'),i);
                 Notes[i].style.display='none';
               },500)
             })
           }
       })
+
 
       const notesCountRef = db.ref('users/' + user.uid + '/noteCount');            
           notesCountRef.get().then((snapshot) => {
@@ -153,7 +158,10 @@ document.addEventListener('DOMContentLoaded', function () {
                   noteCounter=0;
               }
           })
+
+          
     }
+
     
     function clearNotes() {      
       let notesTemp = document.getElementsByClassName('note')
@@ -183,11 +191,19 @@ document.addEventListener('DOMContentLoaded', function () {
     
     }
 
-    function removeNoteDb(user,id) {
+    function removeNoteDb(user,id,index) {
       console.log('removing');
+      console.log(index);
+      console.log(noteMarkerTables);
+      console.log(noteMarkerTables[noteMarkerTables.length - (index+1)]);
+      map.removeLayer(noteMarkerTables[noteMarkerTables.length - (index+1)]);
+      noteMarkerTables.splice(noteMarkerTables.length - (index+1),1)
       db.ref('users/' + user.uid + '/notes/' + id).remove().then(function () {
         console.log('Succesfully removed');
+        clearNotes();
+        updateNoteDisplay(user)
       });  
+      
     }
 
 
@@ -299,33 +315,51 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(error);
     }
 
-    var noteMarkerTables= [];
-    function Tag(address,msg,id) {
-    if(address!=undefined && address!=''){
-      var coordinates;
-    fetch(` //nominatim.openstreetmap.org/search?format=json&q=${address} `)
-    .then(function(response) {
-      return response.json();
-    }).then(function (responseJson) {
-      coordinates=[responseJson[0].lat,responseJson[0].lon];
-      let noteMarker = L.marker([coordinates[0],coordinates[1]], {icon: yellowIcon}).addTo(map)
-      noteMarker.bindPopup(`<b>${msg}<br />`)
-      if (id!= undefined) {
-        noteMarker.on('click',function () {
-          if (showOne.checked) {
-            let Notes = document.getElementsByClassName('note');
-            for (let j = 0; j < Notes.length; j++) {
-              Notes[j].setAttribute('data-js-opened','0');
-            }
-          }
-          document.querySelector(`[data-js="${id}"]`).setAttribute('data-js-opened','1');
-          swiper.slidePrev();
-        })
+
+    function next() {
+      if (resolver) resolver.call();
+      console.log('gro');
+    }
+    
+    async function TagAll(noteMarkerNumBfr,NoteElements) {
+      for (let i = 0; i < NoteElements.length; i++) {
+
+        if (noteMarkerNumBfr <= i) {
+          // console.log(i);
+          if(NoteElements[i].Location!=undefined && NoteElements[i].Location!=''){
+            var coordinates;
+
+
+              await fetch(` //nominatim.openstreetmap.org/search?format=json&q=${NoteElements[i].Location} `)
+              .then(function(response) {
+                return response.json();
+              }).then(function (responseJson) {
+                coordinates=[responseJson[0].lat,responseJson[0].lon];
+                let noteMarker = L.marker([coordinates[0],coordinates[1]], {icon: yellowIcon}).addTo(map)
+                noteMarker.bindPopup(`<b>${NoteElements[i].Title}<br />`)
+                if (NoteElements[i].ID!= undefined) {
+                  noteMarker.on('click',function () {
+                    if (showOne.checked) {
+                      let Notes = document.getElementsByClassName('note');
+                      for (let j = 0; j < Notes.length; j++) {
+                        Notes[j].setAttribute('data-js-opened','0');
+                      }
+                    }
+                    document.querySelector(`[data-js="${NoteElements[i].ID}"]`).setAttribute('data-js-opened','1');
+                    swiper.slidePrev();
+                  })
+                }
+                noteMarkerTables.push(noteMarker);
+                console.log(i);
+              })  
+
+          }  
+  
+        }
       }
-      noteMarkerTables.push(noteMarker);
-    })  
-    }  
-  }
+    }
+
+
 
   function Fly(address) {
     if(address!=undefined && address!=''){
