@@ -1,12 +1,10 @@
 module.exports = {
-  purge: {
-    enabled: false,
-    content: [
-      'public/index.html',
-      'public/resources/js/main.js'
-    ],
-  },
-  darkMode: false, // or 'media' or 'class'
+  
+  purge: [
+    'public/index.html',
+    'public/resources/js/*'
+  ],
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       fontFamily: {
@@ -32,5 +30,7 @@ module.exports = {
       filter: ["hover"],
     },
   },
-  plugins: [],
+  plugins: [
+      require('@tailwindcss/line-clamp'),
+  ],
 };

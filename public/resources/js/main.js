@@ -1,9 +1,9 @@
+var panelState = true;
 document.addEventListener('DOMContentLoaded',function () {
 
   const userPanel = document.getElementById("user_panel");
   const userPanelBtn = document.getElementById("user_panel_btn");
   const userPanelContainer = document.getElementById("user_panel_container");
-  var panelState = true;
 
 
   const navContainer = document.getElementById("user_nav");
@@ -61,12 +61,14 @@ document.addEventListener('DOMContentLoaded',function () {
 
   userPanelBtn.addEventListener("touchstart", function () {
     userPanel.classList.remove("duration-300");
+    userPanel.classList.add("duration-[10ms]");
     userPanelBtn.addEventListener("touchmove", move);
   });
 
 
   function move(e) {
     clientY = e.touches[0].clientY - window.innerHeight + 52;
+    clientY = Math.trunc(clientY);
     if(clientY<=0){
     userPanel.style.setProperty("transform", "translateY(" + clientY + "px)");
     }
@@ -76,14 +78,12 @@ document.addEventListener('DOMContentLoaded',function () {
   userPanelBtn.addEventListener("touchend", function () {
     userPanel.style.removeProperty('transform');
     userPanel.classList.add("duration-300");
+    userPanel.classList.remove("duration-[10ms]");
 
     if (clientY < -(window.innerHeight/3)) {
       clientY=0;
-      userPanelBtn.removeEventListener("touchmove",move);
-      userPanel.style.removeProperty('transform');
-      userPanel.classList.add("duration-300");
       Hide();
     }
   });
-  // Hide(); //temporary hide user panel for easier map development
+
 });

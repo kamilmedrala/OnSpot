@@ -9,3 +9,49 @@
 .active .swiper-button-disabled .dot{
     @apply opacity-100
 }
+
+#note_container[data-js-opened="1"] ~ .note{
+    @apply opacity-30 ;
+}
+
+.note{
+    will-change: height;
+    @apply transition-all relative duration-300 overflow-hidden bg-white dark:bg-black rounded-3xl p-2 px-4 mb-4 cursor-pointer hover:shadow-md;
+}
+
+.note[data-js-opened="0"]{
+    @apply max-h-[40px] hover:bg-gray-100 dark:hover:bg-black dark:hover:bg-opacity-90 transition-all;
+}
+
+.note[data-js-opened="1"]{
+    @apply max-h-[300px];
+}
+
+
+.note[data-js-opened="0"] h3{
+    @apply line-clamp-1;
+}
+
+.note[data-js-opened="0"] .delete{
+    @apply opacity-0;
+}
+
+.note .text-black{
+    @apply dark:text-gray-300
+}
+
+.text-white{
+    @apply dark:text-gray-300
+}
+
+#map.leaflet-touch .leaflet-control-layers,#map.leaflet-touch .leaflet-bar {
+    @apply border-0;
+}
+
+.leaflet-control-container .leaflet-bottom .leaflet-bar .leaflet-control-zoom-in,.leaflet-control-container .leaflet-bottom .leaflet-bar .leaflet-control-zoom-out{
+    @apply w-10 h-10 mr-px bg-opacity-40 backdrop-filter backdrop-blur-sm dark:bg-black dark:bg-opacity-40 transition bg-gray-600 rounded-full border border-solid border-yellow-200 mb-1;
+}
+
+#map .leaflet-control-container .leaflet-bottom .leaflet-bar a.leaflet-control-zoom-in,#map .leaflet-control-container .leaflet-bottom .leaflet-bar a.leaflet-control-zoom-out{
+    @apply text-white hover:text-yellow-300 transition text-4xl pr-px pb-1 leading-9;
+}
