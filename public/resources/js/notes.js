@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const mapAnim = document.getElementById('option_mapAnim');
     const onCreateOpen = document.getElementById('option_onCreateOpen')
     
-    
+    var frombtn = undefined
+
     noteCrtBtn.addEventListener('click',function () {
       noteCrtContainer.classList.toggle('bg-white');
       noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
@@ -41,7 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
         noteCrtTxtDesc.value="";
       }
       if (marker!=0) {
-        map.removeLayer(marker);
+        frombtn=true;
+        map.removeLayer(marker); 
+        frombtn=false
       }
     
     })
@@ -61,10 +64,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (logged) {
         clearNotes();
         const user = firebase.auth().currentUser;
-        updateNoteDisplay(user);    
+        updateNoteDisplay(user,false);    
           noteSaveIcon.addEventListener('click',function () {   
               addNoteDb(user,noteCounter + 1);
           })
+          check(user);
         } 
         else{
           if (noteMarkerTables.length>0) {
@@ -72,16 +76,52 @@ document.addEventListener('DOMContentLoaded', function () {
               map.removeLayer(noteMarkerTables[i])
             }
           }
+          noteMarkerNumBfr = 0
         }
     });
 
 
 
+    var once=0
+    function check(user) {
+      // var NoteElementsBefore=[]
+      // var NoteElementsNew=[]
+      // setInterval(() => {
+      //   db.ref('users/' + user.uid + '/notes').get().then((snapshot) =>{  
+      //     NoteElementsBefore=snapshot.val();
+      //       if(NoteElementsBefore!='null' && NoteElementsBefore!=null){
+      //         NoteElementsBefore = Object.values(NoteElementsBefore);
+      //         // for (let j = 0; j < NoteElementsBefore.length; j++) {
+      //           if (once>0) {
+      //           if (NoteElementsNew.length != NoteElementsBefore.length ) {
+      //             console.log('ZMIANY');
+      //             clearNotes()
+      //             for(i in noteMarkerTables){
+      //               map.removeLayer(noteMarkerTables[i])
+      //             }
+      //             updateNoteDisplay(user,true)
+      //           }
+      //         }
+      //         // }
+      //         once=1;
+      //         NoteElementsNew = NoteElementsBefore;
+      //         console.log(NoteElementsNew);
+      //       }
+      //     })
+      //   }, 3000);
+
+    }
+
+
 
     
-    function updateNoteDisplay(user) {
+    function updateNoteDisplay(user,checkerState) {
+      var checker = checkerState;
       var NoteElements;
       var noteMarkerNumBfr = noteMarkerTables.length;
+      // if (checker) {
+      //   noteMarkerNumBfr =0;
+      // }
       console.log(noteMarkerNumBfr);
       db.ref('users/' + user.uid + '/notes').get().then((snapshot) =>{
           // noteMarkerTables= [];
@@ -172,6 +212,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }  
     }
+
+    // functions.dbf.ref('users/' + user.uid).onUpdate(function () {
+    //   console.log(' DZIALOOOOOOOOO');
+    // })
     
     function addNoteDb(user,value) {
     clearNotes();
@@ -187,7 +231,11 @@ document.addEventListener('DOMContentLoaded', function () {
         Content: noteCrtTxtDesc.value,
       });
       noteCounter++;
-      updateNoteDisplay(user);
+      updateNoteDisplay(user,false);
+    //   dbf.collection("users").doc(user.uid).set({
+    //     update: true
+    //   }).then(() => {
+    // console.log("dbf updated");})
     
     }
 
@@ -201,8 +249,13 @@ document.addEventListener('DOMContentLoaded', function () {
       db.ref('users/' + user.uid + '/notes/' + id).remove().then(function () {
         console.log('Succesfully removed');
         clearNotes();
-        updateNoteDisplay(user)
+        updateNoteDisplay(user,false)
       });  
+    //   dbf.collection("users").doc(user.uid).set({
+    //     update: true
+    //   }).then(() => {
+    // console.log("dbf updated");
+    // })
       
     }
 
@@ -260,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
     navigator.geolocation.getCurrentPosition(GeoSuccess,GeoError);
 
 
-    const map = L.map('map',{zoomControl: false}).setView([0,0],2);
+    const map = L.map('map',{zoomControl: false, tap:false}).setView([0,0],2);
     map.options.minZoom = 2;
     map.setMaxBounds(  [[-90,-Infinity],   [90,Infinity]]  );
     L.control.zoom({
@@ -276,17 +329,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     document.getElementById('mapSat').addEventListener('click',function () {
-      Tiles.setUrl('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=Vp06Pe6Ut4DX53ApAkJI')
+      Tiles.setUrl('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=5AonFqHs3GZazDdOj4vU')
       document.querySelector('html').classList.remove('dark');        
     })
 
     document.getElementById('mapDef').addEventListener('click',function () {
-      Tiles.setUrl('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI')
+      Tiles.setUrl('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=5AonFqHs3GZazDdOj4vU')
       document.querySelector('html').classList.remove('dark');
     })
 
     document.getElementById('mapDark').addEventListener('click',function () {
-      Tiles.setUrl('https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI')
+      Tiles.setUrl('https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=5AonFqHs3GZazDdOj4vU')
       document.querySelector('html').classList.add('dark');
     })
 
@@ -325,7 +378,6 @@ document.addEventListener('DOMContentLoaded', function () {
       for (let i = 0; i < NoteElements.length; i++) {
 
         if (noteMarkerNumBfr <= i) {
-          // console.log(i);
           if(NoteElements[i].Location!=undefined && NoteElements[i].Location!=''){
             var coordinates;
 
@@ -335,7 +387,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
               }).then(function (responseJson) {
                 coordinates=[responseJson[0].lat,responseJson[0].lon];
-                let noteMarker = L.marker([coordinates[0],coordinates[1]], {icon: yellowIcon}).addTo(map)
+                let noteMarker = L.marker([coordinates[0],coordinates[1]], {icon: yellowIcon}).addTo(map).openPopup()
                 noteMarker.bindPopup(`<b>${NoteElements[i].Title}<br />`)
                 if (NoteElements[i].ID!= undefined) {
                   noteMarker.on('click',function () {
@@ -371,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
       coordinates=[responseJson[0].lat,responseJson[0].lon];
       map.flyTo([coordinates[0],coordinates[1] - offset*0.5],11, {
         "animate": (mapAnim.checked) ? true:false,
-        "duration": 2
+        "duration": 1.2
       });
     })  
     }  
@@ -380,37 +432,60 @@ document.addEventListener('DOMContentLoaded', function () {
   
   var marker=0;
   map.on('click',function (e) {
-      if(noteCrtContainer.getAttribute('data-js-opened')==0){
-      console.log(e.latlng);
-      map.flyTo([e.latlng.lat,e.latlng.lng - offset],10, {
-        "animate": (mapAnim.checked) ? true:false,
-        "duration": 2
-      });
-      marker = L.marker([e.latlng.lat,e.latlng.lng], {icon: yellowIcon}).addTo(map)
-
+    if (marker) {        
+      map.removeLayer(marker);
+    }
+    console.log(e.latlng);
+    map.flyTo([e.latlng.lat,e.latlng.lng - offset],10, {
+      "animate": (mapAnim.checked) ? true:false,
+      "duration": 1.2
+    });
+    marker = L.marker([e.latlng.lat,e.latlng.lng], {icon: yellowIcon}).addTo(map)
+    if(noteCrtContainer.getAttribute('data-js-opened')==0){
       noteCrtContainer.classList.toggle('bg-white');
-        noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
-        noteCrtContainer.classList.toggle('shadow-lg');
-        noteCrtHeader.classList.toggle('opacity-0');
-        noteCrtHeader.classList.toggle('z-40');
-        noteSaveIcon.classList.toggle('opacity-0');
-        noteSaveIcon.classList.toggle('pointer-events-none');
-        noteCrtIcon.classList.toggle('text-black');
-        noteCrtIcon.classList.toggle('-rotate-45');
-        noteCrtTxt.classList.toggle('hidden');
-        noteCrtTxt.classList.toggle('opacity-100');
-        
+      noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
+      noteCrtContainer.classList.toggle('shadow-lg');
+      noteCrtHeader.classList.toggle('opacity-0');
+      noteCrtHeader.classList.toggle('z-40');
+      noteSaveIcon.classList.toggle('opacity-0');
+      noteSaveIcon.classList.toggle('pointer-events-none');
+      noteCrtIcon.classList.toggle('text-black');
+      noteCrtIcon.classList.toggle('-rotate-45');
+      noteCrtTxt.classList.toggle('hidden');
+      noteCrtTxt.classList.toggle('opacity-100');
+      noteCrtContainer.setAttribute('data-js-opened', '1')  
+    }
+    noteCrtTxtTitle.value="";
+    noteCrtTxtLocation.value=`${e.latlng.lat} , ${e.latlng.lng}`;
+    noteCrtTxtDesc.value="";
       
-        if (noteCrtContainer.getAttribute('data-js-opened')==0) {
-          noteCrtContainer.setAttribute('data-js-opened', '1')  
-          noteCrtTxtTitle.value="";
-          noteCrtTxtLocation.value=`${e.latlng.lat} , ${e.latlng.lng}`;
-          noteCrtTxtDesc.value="";
-        }     
 
         swiper.slidePrev();
 
         marker.bindPopup(`<b class="text-center"> Open notes panel to create <br> a new note or cancel </b>`).openPopup();
+        marker.getPopup().on('remove', function() {
+              // if (frombtn) {
+              //   frombtn=false
+              // }
+            map.removeLayer(marker);
+            console.log(marker);
+            if (!frombtn) {
+              noteCrtContainer.classList.toggle('bg-white');
+      noteCrtContainer.classList.toggle('hover:bg-opacity-100');    
+      noteCrtContainer.classList.toggle('shadow-lg');
+      noteCrtHeader.classList.toggle('opacity-0');
+      noteCrtHeader.classList.toggle('z-40');
+      noteSaveIcon.classList.toggle('opacity-0');
+      noteSaveIcon.classList.toggle('pointer-events-none');
+      noteCrtIcon.classList.toggle('text-black');
+      noteCrtIcon.classList.toggle('-rotate-45');
+      noteCrtTxt.classList.toggle('hidden');
+      noteCrtTxt.classList.toggle('opacity-100');
+      noteCrtContainer.setAttribute('data-js-opened', '0')
+            }
+
+      });
+
         if (onCreateOpen.checked) {
           map.once('zoomend', function () {
             document.getElementById("user_nav").classList.add("active");
@@ -426,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           })
         }
-      }
+      
     })
 
 

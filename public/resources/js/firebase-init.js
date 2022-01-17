@@ -15,6 +15,7 @@ const app = firebase.initializeApp(firebaseConfig);
 const appSecondary = firebase.initializeApp(firebaseConfig,'temporary');
 const auth = firebase.auth();
 const db = firebase.database();
+const dbf = firebase.firestore();
 
 
 //user account elements
