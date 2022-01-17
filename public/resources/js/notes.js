@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
     L.control.zoom({
       position: 'bottomright'
     }).addTo(map);
-    const Tiles = L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=Vp06Pe6Ut4DX53ApAkJI',{
+    const Tiles = L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=5AonFqHs3GZazDdOj4vU',{
       attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
     }).addTo(map);
 
